@@ -38,7 +38,7 @@
 		  <ul class="dropdown">
 		    <li><a href="{{ url('app_home') }}">Home</a></li>
 		    <li><a href="{{ url('app_home') }}">Albums</a></li>
-		    <li><a href="{{ url('app_home') }}">Events</a></li>
+		    <li><a href="{{ url('app_event_index') }}">Events</a></li>
 		    <li><a href="{{ url('app_home') }}">News</a></li>
 		    <li><a href="{{ url('app_home') }}">Contact</a></li>
 		    <li><a href="{{ url('app_home') }}">Elements</a></li>
@@ -46,7 +46,14 @@
 		    <li><a href="#">Dropdown</a></li>
 		  </ul>
 		</li>
-		<li><a href="{{ url('app_home') }}">Events</a></li>
+		<li><a href="{{ url('app_event_index') }}">Events</a>
+			<ul class="dropdown">
+				<li><a href="{{ url('app_event_new') }}">Add Event</a></li>
+				<li><a href="{{ url('app_event_back') }}">Event Back</a></li>
+			</ul>
+
+
+		</li>
 		<li><a href="{{ url('app_home') }}">News</a></li>
 		<li><a href="{{ url('app_home') }}">Contact</a></li>
 		<li><a href="{{ url('app_login') }}">Login</a></li>

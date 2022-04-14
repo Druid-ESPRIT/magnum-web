@@ -1,0 +1,47 @@
+{#{% extends 'base.html.twig' %}
+
+{% block title %}New Event{% endblock %}
+
+{% block body %}
+    <h1>Create new Event</h1>
+
+    {{ include('event/_form.html.twig') }}
+
+    <a href="{{ path('app_event_index') }}">back to list</a>
+{% endblock %}
+#}
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ include('_ellipsis.html.twig') }}
+    {{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>Add new Event</p>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+        <div class="container">
+            <div class="row">
+
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(form) }}
+                <button class="btn">{{ button_label|default('Save') }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+{% endblock %}
+
+

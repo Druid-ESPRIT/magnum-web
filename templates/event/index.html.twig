@@ -1,0 +1,114 @@
+{#
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <h1>Event index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Payant</th>
+                <th>Prix</th>
+                <th>Status</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.Name }}</td>
+                <td>{{ event.Description }}</td>
+                <td>{{ event.Type }}</td>
+                <td>{{ event.Location }}</td>
+                <td>{{ event.Date ? event.Date|date('Y-m-d') : '' }}</td>
+                <td>{{ event.Payant ? 'Yes' : 'No' }}</td>
+                <td>{{ event.Prix }}</td>
+                <td>{{ event.Status }}</td>
+                <td>{{ event.Image }}</td>
+                <td>
+                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
+                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_event_new') }}">Create new</a>
+{% endblock %}
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ include('_ellipsis.html.twig') }}
+{{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>See what’s new</p>
+            <h2>Events</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+        <div class="container">
+            <div class="row">
+
+                {% for event in events %}
+                    <!-- Single Event Area -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-event-area mb-30">
+                            <div class="event-thumbnail">
+                                <img src="{{ asset('uploads/'~event.Image) }}" alt="">
+                            </div>
+                            <div class="event-text">
+                                <h4>{{ event.Name }}</h4>
+                                <div class="event-meta-data">
+                                    <a href="#" class="event-place">{{ event.User.Username }}</a>
+                                    <a href="#" class="event-date">{{ event.Date|date('d/m/y') }}</a>
+                                </div>
+                                <a href="{{ path('app_event_show', {'id': event.id}) }}" class="btn see-more-btn">See Event</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+
+
+
+            </div>
+
+           {# <div class="row">
+                <div class="col-12">
+                    <div class="load-more-btn text-center mt-70">
+                        <a href="#" class="btn oneMusic-btn">Load More <i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+{% endblock %}
+
