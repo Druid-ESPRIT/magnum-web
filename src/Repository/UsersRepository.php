@@ -1,10 +1,13 @@
 <?php
+
+
 namespace App\Repository;
 
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+
 
 class UsersRepository extends ServiceEntityRepository
 {
@@ -48,4 +51,5 @@ class UsersRepository extends ServiceEntityRepository
             ->setParameter('query', $usernameOrEmail)
             ->getOneOrNullResult();
     }
+
 }
