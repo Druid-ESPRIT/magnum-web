@@ -84,7 +84,7 @@
                                 <h4>{{ event.Name }}</h4>
                                 <div class="event-meta-data">
                                     <a href="#" class="event-place">{{ event.User.Username }}</a>
-                                    <a href="#" class="event-date">{{ event.Date|date('d/m/y') }}</a>
+                                    <a href="#" class="event-date">{{ event.Date|date('d/m/y') }} | {{ event.participants|length }} Participants</a>
                                 </div>
                                 <a href="{{ path('app_event_show', {'id': event.id}) }}" class="btn see-more-btn">See Event</a>
                             </div>

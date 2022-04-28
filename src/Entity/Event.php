@@ -54,6 +54,7 @@ class Event
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThan("today",message="Cannot Pick Date < Today's Date")
      */
     private $Date;
 
@@ -85,9 +86,27 @@ class Event
      */
     private $Reviews;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class)
+     * @ORM\JoinTable(name="user_event",
+     *      joinColumns={ @ORM\JoinColumn(name="event_id", referencedColumnName="id") },
+     *      inverseJoinColumns={ @ORM\JoinColumn(name="user_id", referencedColumnName="id") })
+     */
+    private $Participants;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Max Participants cannot be empty")
+     * @Assert\NotNull(message="Max Participants cannot be Null")
+     * @Assert\Positive(message="Max Participants cannot be Negative")
+     */
+
+    private $MaxParticipants;
+
     public function __construct()
     {
         $this->Reviews = new ArrayCollection();
+        $this->Participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +260,42 @@ class Event
                 $review->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getParticipants(): Collection
+    {
+        return $this->Participants;
+    }
+
+    public function addParticipant(User $participant): self
+    {
+        if (!$this->Participants->contains($participant)) {
+            $this->Participants[] = $participant;
+        }
+
+        return $this;
+    }
+
+    public function removeParticipant(User $participant): self
+    {
+        $this->Participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getMaxParticipants(): ?int
+    {
+        return $this->MaxParticipants;
+    }
+
+    public function setMaxParticipants(int $MaxParticipants): self
+    {
+        $this->MaxParticipants = $MaxParticipants;
 
         return $this;
     }

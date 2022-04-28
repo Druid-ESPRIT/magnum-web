@@ -12,6 +12,9 @@
 
     {% block stylesheets %}
        <link rel="stylesheet" href="{{ asset('style.css') }}">
+        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+
     {% endblock %}
   </head>
 
@@ -24,6 +27,8 @@
        <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
        <script src="{{ asset('js/plugins/plugins.js') }}"></script>
        <script src="{{ asset('js/active.js') }}"></script>
+        <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
         <script type="application/javascript">
             $('.custom-file-input').on('change',function(){
                 var fileName = $(this).val().replace(/.*(\/|\\)/, '');

@@ -6,8 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @InheritanceType("JOINED")
+ * @DiscriminatorMap({"users"="User", "administrators"="Administrators", "podcasters"="Podcasters"})
+ * @UniqueEntity("email", "username")
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
@@ -185,4 +191,11 @@ class User
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return "".$this.$this->getUsername();
+    }
+
+
 }

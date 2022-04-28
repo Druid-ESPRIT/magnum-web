@@ -1,63 +1,4 @@
-{#{% extends 'base.html.twig' %}
 
-{% block title %}Event{% endblock %}
-
-{% block body %}
-    <h1>Event</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ event.Name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.Description }}</td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ event.Type }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ event.Location }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ event.Date ? event.Date|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Payant</th>
-                <td>{{ event.Payant ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ event.Prix }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ event.Status }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ event.Image }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_event_index') }}">back to list</a>
-
-    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
-
-    {{ include('event/_delete_form.html.twig') }}
-{% endblock %}
-
-#}
 
 {% extends 'base.html.twig' %}
 
@@ -111,6 +52,7 @@
                                     <p class="tags">Price : <a href="#"> Free Entry </a></p>
                                 {% endif %}
                                 <p class="tags"><a href="#">{{  event.Reviews|length }} Reviews</a></p>
+                                <p class="tags"><a href="#">{{  event.participants|length }} Participants</a></p>
                             </div>
                             <!-- Post Excerpt -->
                             {% if event.type != 'LIVE' %}
@@ -118,18 +60,36 @@
                             {% endif %}
                             <p>{{ event.Description }}</p>
                         </div>
-                    </div>
+                        <div class="col-12 col-lg-auto">
+                            {% if isFull %}
 
+                                <a class="btn btn-info" style="width: 100%; cursor: not-allowed" href="#">Sorry ! Event Reached Max Participants !</a><br>
+
+
+                            {% else %}
+
+                                {% if participe == true %}
+                                    <a class="btn btn-success" style="width: 100%" href="{{ path('app_event_participate', {'id': event.id}) }}">Participate</a><br>
+                                {% else %}
+                                    <a class="btn btn-danger" style="width: 100%" href="{{ path('app_event_sparticipate', {'id': event.id}) }}">Cancel Participation</a><br>
+                                {% endif %}
+
+
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12 col-lg-4">
+                    <a class="btn btn-info" href="{{ path('app_event_edit', {'id': event.id}) }}">Update Event</a>
+                    <a class="btn btn-danger" href="{{ path('app_event_delete', {'id': event.id}) }}">Cancel Event</a>
                 </div>
 
 
             </div>
-            <div class="row">
-                <a class="btn btn-info" href="{{ path('app_event_edit', {'id': event.id}) }}">Update Event</a>
-                <a class="btn btn-danger" href="{{ path('app_event_delete', {'id': event.id}) }}">Cancel Event</a>
 
 
-            </div>
 
             <h3>Reviews</h3>
             <div class="row">
@@ -193,6 +153,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!-- ##### Blog Area End ##### -->

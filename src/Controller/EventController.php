@@ -11,11 +11,22 @@ use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
+use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
+use Endroid\QrCode\Label\Font\NotoSans;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -36,6 +47,34 @@ class EventController extends AbstractController
         ]);
     }
 
+    /* Wallet */
+    /**
+     * @Route("/wallet",name="app_event_wallet")
+     * @param EventRepository $eventRepository
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function walletIndex(EventRepository $eventRepository, UserRepository $userRepository)
+    {
+        $user = $userRepository->find(1);
+        $events = $eventRepository->findBy(['User'=>$user]);
+        $total = 0;
+
+        $totalP =0;
+
+        foreach ($events as $event)
+        {
+            $total+=($event->getPrix()*$event->getParticipants()->count());
+            $totalP+=$event->getParticipants()->count();
+        }
+
+        return $this->render('event/wallet.html.twig', [
+            'events' => $events,
+            'total'=>$total,
+            'totalP'=>$totalP
+        ]);
+    }
+
     /**
      * @Route("/new", name="app_event_new", methods={"GET", "POST"})
      * @param Request $request
@@ -51,7 +90,6 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('Image')->getData();
 
@@ -82,7 +120,6 @@ class EventController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/delete/{id}", name="app_event_delete", methods={"GET", "POST"})
      * @param Request $request
@@ -103,16 +140,28 @@ class EventController extends AbstractController
      * @Route("/{id}", name="app_event_show", methods={"GET", "POST"})
      * @param Request $request
      * @param Event $event
+     * @param EventRepository $eventRepository
      * @param ReviewRepository $reviewRepository
      * @param UserRepository $userRepository
+     * @param ValidatorInterface $validator
      * @return Response
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function show(Request $request, Event $event,ReviewRepository $reviewRepository,UserRepository $userRepository,ValidatorInterface $validator): Response
+    public function show(Request $request, Event $event,EventRepository $eventRepository, ReviewRepository $reviewRepository,UserRepository $userRepository,ValidatorInterface $validator): Response
     {
         $user = $userRepository->find(1);
         $reviews = $reviewRepository->findBy(["user"=>$user,"Event"=>$event]);
+
+        $user2 = $userRepository->find(2);
+        $participants = $event->getParticipants();
+
+        /* Event is Full */
+        $isFull = $event->getMaxParticipants() == $participants->count();
+        /* ---------------- */
+
+
+
 
 
         $review = new Review();
@@ -127,6 +176,7 @@ class EventController extends AbstractController
                 $errorsString = (string) $errors;
                 return $this->render('event/show.html.twig', [
                     'errors'=> $errorsString,
+                    'isFull'=> $isFull,
                     'event' => $event,
                     'form'=>$form->createView(),
                     'reviews'=>$reviews
@@ -137,6 +187,7 @@ class EventController extends AbstractController
                 return $this->render('event/show.html.twig', [
                     'errors'=> '',
                     'event' => $event,
+                    'isFull'=> $isFull,
                     'form'=>$form->createView(),
                     'reviews'=>$reviews
                 ]);
@@ -144,13 +195,28 @@ class EventController extends AbstractController
 
         }
 
+        if($participants->contains($user2))
+        {
+            return $this->render('event/show.html.twig', [
+                'errors'=> '',
+                'participe'=>false,
+                'isFull'=> $isFull,
+                'event' => $event,
+                'form'=>$form->createView(),
+                'reviews'=>$reviews
+            ]);
+        }
+        else{
+            return $this->render('event/show.html.twig', [
+                'errors'=> '',
+                'participe'=>true,
+                'isFull'=> $isFull,
+                'event' => $event,
+                'form'=>$form->createView(),
+                'reviews'=>$reviews
+            ]);
+        }
 
-        return $this->render('event/show.html.twig', [
-            'errors'=> '',
-            'event' => $event,
-            'form'=>$form->createView(),
-            'reviews'=>$reviews
-        ]);
     }
 
     /**
@@ -170,6 +236,7 @@ class EventController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            var_dump( (string) $errors);
             if (count($errors) > 0) {
                 $errorsString = (string) $errors;
                 return $this->render('event/edit.html.twig', [
@@ -188,6 +255,110 @@ class EventController extends AbstractController
             'event' => $event,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param MailerInterface $mailer
+     * @param Request $request
+     * @param EventRepository $eventRepository
+     * @param ReviewRepository $reviewRepository
+     * @param ValidatorInterface $validator
+     * @param Event $event
+     * @param UserRepository $userRepository
+     * @return Response
+     * @throws TransportExceptionInterface
+     * @Route("/{id}/participate",name="app_event_participate",methods={"GET","POST"})
+     */
+    public function UserParticipate(MailerInterface $mailer,Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UserRepository $userRepository)
+    {
+        $user = $userRepository->find(2);
+        $participants = $event->getParticipants();
+
+
+        if($participants->contains($user))
+        {
+            return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()], Response::HTTP_SEE_OTHER);
+        }else{
+
+            if($event->getPayant())
+            {
+                return  $this->redirectToRoute('checkout_event',['event'=>$event->getId()], Response::HTTP_SEE_OTHER);
+            }else{
+                /* QR CODE */
+                $webPath = $this->getParameter('kernel.project_dir').'/public/';
+                $result = Builder::create()
+                    ->labelText($event->getName())
+                    ->writerOptions([])
+                    ->data("Event Name : ".$event->getName()." | Podcaster : ".$event->getUser()->getUsername()." | Event Date : ".$event->getDate()->format("d/M/Y")." | Event Location / Link : ".$event->getLocation()." | ")
+                    ->logoPath($webPath.'/uploads/'.$event->getImage())
+                    ->logoResizeToHeight(120)
+                    ->logoResizeToWidth(120)
+                    ->logoPunchoutBackground(false)
+                    ->encoding(new Encoding('UTF-8'))
+                    ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+                    ->size(300)
+                    ->margin(10)
+                    ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+                    ->labelFont(new NotoSans(20))
+                    ->labelAlignment(new LabelAlignmentCenter())
+                    ->build();
+
+                $result->saveToFile($webPath.'/uploads/qrcodes/event.png');
+                /* ---------------------------------------------------------------------- */
+                /* Email */
+                $email = (new TemplatedEmail())
+                    ->from(new Address('devel.magnum@gmail.com', 'Magnum Mail'))
+                    ->to($user->getEmail())
+                    ->subject('Order Passed Successfully')
+                    ->embedFromPath($webPath.'/uploads/qrcodes/event.png')
+                    ->html("<h1> Hi !</h1>
+                    <p>Thank you for your purchase</p>
+                    <p>Your name : ".$user->getUsername()."</p>
+                    <p>This is a Confirmation Email for participating in Event : ".$event->getName()."</p>
+                    <p>Please Bring and Show this email as a recipient when attending the Event to confirm your Identity</p>
+                    <p>You can also use the QrCode Attached to this email as your Ticket</p>
+                    <p>Thank you for your Trust !</p>");
+                //->htmlTemplate('commande/email.html.twig');
+
+                $mailer->send($email);
+
+                /* ---------------------------------------------------------------------- */
+                  $event->addParticipant($user);
+           $eventRepository->add($event);
+           return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()], Response::HTTP_SEE_OTHER);
+            }
+
+
+
+
+        }
+
+    }
+
+    /**
+     * @param Request $request
+     * @param EventRepository $eventRepository
+     * @param ReviewRepository $reviewRepository
+     * @param ValidatorInterface $validator
+     * @param Event $event
+     * @param UserRepository $userRepository
+     * @return Response
+     * @Route("/{id}/sparticipate",name="app_event_sparticipate",methods={"GET","POST"})
+     */
+    public function RemoveUserParticipate(Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UserRepository $userRepository)
+    {
+        $user = $userRepository->find(2);
+        $participants = $event->getParticipants();
+
+        if($participants->contains($user))
+        {
+            $event->removeParticipant($user);
+            $eventRepository->add($event);
+            return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()], Response::HTTP_SEE_OTHER);
+        }
+        return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()], Response::HTTP_SEE_OTHER);
+
+
     }
 
 
