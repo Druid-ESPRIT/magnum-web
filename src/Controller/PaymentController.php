@@ -147,7 +147,7 @@ class PaymentController extends AbstractController
               'order' => $orders
             ]);
     
-           // $mailer->send($email);
+           $mailer->send($email);
             $em ->flush();
         return $this->render('payment/success.html.twig', ["orders" => $orders]);
     }

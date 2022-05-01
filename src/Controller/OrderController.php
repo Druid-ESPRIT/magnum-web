@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\String\ByteString;
 use Symfony\Component\Mailer\MailerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 
@@ -98,11 +100,16 @@ class OrderController extends AbstractController
          
         $repository=$this->getDoctrine()->getRepository(Coupon::class);
         $inputCoupon =$request->request->get('code');
+        try
+         {
         if ($inputCoupon != ""){
         $taggedCoupon=$repository->findOneBy(array('code' => $inputCoupon));
         $em = $this->getDoctrine()->getManager();
         $em->persist($taggedCoupon->setUsed("true"));
         $em ->flush();}
+        } catch (\Throwable $t) {
+            return new JsonResponse($order->getId());
+        }
 
 
         $email = (new TemplatedEmail())
@@ -114,7 +121,7 @@ class OrderController extends AbstractController
           'order' => $order
         ]);
 
-      //  $mailer->send($email);
+       $mailer->send($email);
 
      
          return new JsonResponse($order->getId());
@@ -133,14 +140,61 @@ class OrderController extends AbstractController
         $repository=$this->getDoctrine()->getRepository(Users::class);
         $id = 1;
         $user=$repository->find($id);
-
+        try
+        {
         if (($taggedCoupon->getUsed() == "false") && ($user->getId() == $taggedCoupon->getUserId())){
            
             return new JsonResponse($taggedCoupon->getReduction()); 
 
 
         }
+        if (($taggedCoupon->getUsed() == "true") && ($user->getId() == $taggedCoupon->getUserId())){
+           
+            return new JsonResponse("used"); 
+
+
+        }
+       } catch (\Throwable $t) {
+        return new JsonResponse(0);
+       }
+  
         return new JsonResponse(0); 
+    }
+         /**
+     * @Route("/back/orderchecker", name="orderchecker")
+     */
+    public function orderChecker(): Response
+    {
+        $repository=$this->getDoctrine()->getRepository(Order::class);
+        $orders=$repository->findAll();
+        return $this->render('order/orderback.html.twig', ["orders"=>$orders]
+        );
+    }
+
+    /**
+     * @Route("/orderspdf",name="orderspdf")
+     */
+    public function generateOrderPdf()
+    {
+        $repository=$this->getDoctrine()->getRepository(Order::class);
+        $orderlist=$repository->findAll();
+
+        $pdfoptions=new Options();
+        $pdfoptions->set('defaultFont','Arial');
+        $pdfoptions->set('isHtml5ParserEnabled',true);
+        $pdfoptions->set('isRemoteEnabled',true);
+        $dompdf= new Dompdf($pdfoptions);
+        $html=$this->renderView('order/pdf.html.twig',[
+            'orderlist'=>$orderlist
+        ]);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4','landscape');
+
+        $dompdf->render();
+        $dompdf->stream("OrderList.pdf", ["Attachment"=>false]);
+
+
     }
 
 }

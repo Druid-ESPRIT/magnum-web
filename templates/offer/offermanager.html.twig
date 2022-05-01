@@ -13,6 +13,7 @@
  <!-- ##### Events Area Start ##### -->
     <section class="events-area section-padding-100">
         <div class="container">
+        {{ knp_pagination_render(offers,('paginator/pagination.html.twig')) }}  
             <div class="row">
             {% for ofs in offers %}
 
@@ -36,14 +37,7 @@
                     </div>
                 </div>
              {%endfor%}
-            
-
-
-                <div class="col-12">
-                    <div class="load-more-btn text-center mt-70">
-                        <a href="#" class="btn oneMusic-btn">Load More <i class="fa fa-angle-double-right"></i></a>
-                    </div>
-                </div>
+        
             </div>
         </div>
     </section>
