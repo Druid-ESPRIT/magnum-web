@@ -1,5 +1,4 @@
 {
-
     "bacon/bacon-qr-code": {
         "version": "2.0.7"
     },
@@ -118,7 +117,6 @@
     },
     "dompdf/dompdf": {
         "version": "v1.2.2"
-
     },
     "egulias/email-validator": {
         "version": "3.1.2"
@@ -575,8 +573,24 @@
     "symfony/stopwatch": {
         "version": "v4.4.38"
     },
+<<<<<<< HEAD
+    "symfony/swiftmailer-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "f0b2fccdca2dfd97dc2fd5ad216d5e27c4f895ac"
+        },
+        "files": [
+            "./config/packages/dev/swiftmailer.yaml",
+            "./config/packages/swiftmailer.yaml",
+            "./config/packages/test/swiftmailer.yaml"
+        ]
+=======
     "symfony/string": {
         "version": "v5.4.3"
+>>>>>>> main
     },
     "symfony/translation": {
         "version": "4.4",

@@ -23,13 +23,44 @@
     {% block body %}
     {% endblock %}
 
-    {% block javascripts %}
-       <script src="{{ asset('js/jquery/jquery-2.2.4.min.js') }}"></script>
-       <script src="{{ asset('js/bootstrap/popper.min.js') }}"></script>
-       <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
-       <script src="{{ asset('js/plugins/plugins.js') }}"></script>
-       <script src="{{ asset('js/active.js') }}"></script>
-    {% endblock %}
-  </body>
+    <!-- Custom styles for this template-->
+    <link href="{{asset('Aziz/css/sb-admin-2.min.css')}}" rel="stylesheet">        {% endblock %}
 
+        {% block javascripts %}
+        
+
+    <script src="{{asset('Aziz/js/chat.js')}}"></script>
+
+
+    <script src="{{asset('Aziz/assets/js/jquery/jquery-2.2.4.min.js')}}"></script>
+    <!-- Popper js -->
+    <script src="{{asset('Aziz/assets/js/bootstrap/popper.min.js')}}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{asset('Aziz/assets/js/bootstrap/bootstrap.min.js')}}"></script>
+    <!-- All Plugins js -->
+    <script src="{{asset('Aziz/assets/js/plugins/plugins.js')}}"></script>
+    <!-- Active js -->
+<!-- Active js --><!-- Active js --><!-- Active js -->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{asset('Aziz/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('Aziz/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{asset('Aziz/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{asset('Aziz/js/sb-admin-2.min.js')}}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{{asset('Aziz/vendor/chart.js/Chart.min.js')}}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{asset('Aziz/js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{asset('Aziz/js/demo/chart-pie-demo.js')}}"></script> 
+           {% endblock %}
+   
+    <body>
+        {% block body %}{% endblock %}
+    </body>
 </html>
