@@ -110,7 +110,7 @@ class HistoryController extends AbstractController
             );
         }
 
-        return $this->render('user/tabs/history/index.html.twig', [
+        return $this->render('frontend/user/tabs/history/index.html.twig', [
             'form' => $form->createView(),
             'history' => $history,
         ]);

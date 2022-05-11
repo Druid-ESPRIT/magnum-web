@@ -10,7 +10,7 @@ class HomeController extends AbstractController
 {
     public function index(): Response
     {
-        return $this->render("home/index.html.twig", []);
+        return $this->render("frontend/home/index.html.twig", []);
     }
 
     public function backend_index(): Response

@@ -45,7 +45,7 @@ class TokenController extends AbstractController
 		if ($form->isSubmitted()) {
 			if (!$form->isValid()) {
                 $this->addFlash('danger', 'The passwords you provided do not match, please try again.');
-                return $this->render("token/reset.html.twig", [
+                return $this->render("frontend/token/reset.html.twig", [
                     "username" => $username,
                     "token" => $token,
                     "form" => $form->createView(),
@@ -66,7 +66,7 @@ class TokenController extends AbstractController
 			return $this->redirectToRoute("app_login");
 		}
 
-		return $this->render("token/reset.html.twig", [
+		return $this->render("frontend/token/reset.html.twig", [
 			"username" => $username,
 			"token" => $token,
 			"form" => $form->createView(),
@@ -96,7 +96,7 @@ class TokenController extends AbstractController
 			if (!$token) {
                 $this->addFlash('danger', 'Not a valid token, please try again.');
 
-				return $this->render("token/input.html.twig", [
+				return $this->render("frontend/token/input.html.twig", [
 					"username" => $username,
 					"form" => $form->createView(),
 				]);
@@ -104,7 +104,7 @@ class TokenController extends AbstractController
 
 			if ($token->isConsumed()) {
                 $this->addFlash('danger', 'This token has already been used before, please generate a new one.');
-				return $this->render("token/input.html.twig", [
+				return $this->render("frontend/token/input.html.twig", [
 					"username" => $username,
 					"form" => $form->createView(),
 				]);
@@ -120,7 +120,7 @@ class TokenController extends AbstractController
 			]);
 		}
 
-		return $this->render("token/input.html.twig", [
+		return $this->render("frontend/token/input.html.twig", [
 			"username" => $username,
 			"form" => $form->createView(),
 		]);
@@ -144,7 +144,7 @@ class TokenController extends AbstractController
 					'We couldn\'t find anybody with that username, please try again.'
 				);
 
-				return $this->render("token/generate.html.twig", [
+				return $this->render("frontend/token/generate.html.twig", [
 					"form" => $form->createView(),
 				]);
 			}
@@ -173,7 +173,7 @@ class TokenController extends AbstractController
 					'We were unable to send you an email with your token, please try again.'
 				);
 
-				return $this->render("token/generate.html.twig", [
+				return $this->render("frontend/token/generate.html.twig", [
 					"form" => $form->createView(),
 				]);
 			}
@@ -183,7 +183,7 @@ class TokenController extends AbstractController
 			]);
 		}
 
-		return $this->render("token/generate.html.twig", [
+		return $this->render("frontend/token/generate.html.twig", [
 			"form" => $form->createView(),
 		]);
 	}

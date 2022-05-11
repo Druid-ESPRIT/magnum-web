@@ -30,7 +30,7 @@ class UserController extends AbstractController
             $user->setAvatar('placeholder-avatar.svg');
         }
 
-        return $this->render('user/tabs/profile/index.html.twig',
+        return $this->render('frontend/user/tabs/profile/index.html.twig',
                [ 'user' => $user ]
         );
     }
@@ -50,7 +50,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted()) {
 			if (!$form->isValid()) {
                 $this->addFlash('danger', 'The passwords you provided do not match, please try again.');
-                return $this->render("user/tabs/security/index.html.twig", [
+                return $this->render("frontend/user/tabs/security/index.html.twig", [
                     'form' => $form->createView()
                 ]);
 			}
@@ -66,7 +66,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render("user/tabs/security/index.html.twig", [
+        return $this->render("frontend/user/tabs/security/index.html.twig", [
             'form' => $form->createView()
         ]);
     }
