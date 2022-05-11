@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class UserController extends AbstractController
 {
@@ -40,6 +47,19 @@ class UserController extends AbstractController
         $index = array_rand($success_messages, 1);
         $msg = $success_messages[$index];
         return $msg;
+    }
+
+    /**
+     * @Route("/api/users/{username}", name="APIGetUser")
+     */
+    public function APIGetUser(Request $request, string $username) {
+        $man = $this->getDoctrine()->getManager();
+        $user = $man->getRepository(Users::class)->findOneBy(['username' => $username]);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $normalized = $serializer->normalize($user); 
+        return new JsonResponse($normalized);
     }
 
     public function getSecurityTab(Request $request): Response {
