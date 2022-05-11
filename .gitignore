@@ -22,8 +22,5 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
-<<<<<<< HEAD
-=======
 
->>>>>>> Add backend :)
 composer.lock
