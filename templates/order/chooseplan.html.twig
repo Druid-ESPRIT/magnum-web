@@ -3,11 +3,12 @@
 
 
 {% block body %}
+{{ include('_ellipsis.html.twig') }}
 {{ include('_navbar.html.twig') }}
-  <link rel="stylesheet" href="{{ asset('scss/slider.scss')}}">
-        
-  
+<link rel="stylesheet" href="{{ asset('scss/slider.scss')}}">
 
+  
+   
   <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
         <div class="bradcumbContent">
             <p>Choose your plan</p>

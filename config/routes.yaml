@@ -57,3 +57,6 @@ backend_user_flags:
 backend_user_manage:
     path: /back/users/edit/{username}
     controller: App\Controller\BackendController::manageUser
+podcasters_list:
+    path: /podcasterslist
+    controller: App\Controller\UserController::podcastersList
