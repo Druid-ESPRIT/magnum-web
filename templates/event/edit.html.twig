@@ -1,0 +1,39 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>Edit Event : {{ event.name }}</p>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+        <div class="container">
+            <div>
+                {% if errors|length > 0 %}
+                    <h2>{% for error in errors %}
+                            <li>{{ error.message }}</li>
+                        {% endfor %}</h2>
+                {% endif %}
+            </div>
+            <div class="row">
+
+                {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_widget(form) }}
+                <button class="btn">Update</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+{% endblock %}

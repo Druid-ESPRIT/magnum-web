@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Users;
 
 
 /**
@@ -22,6 +23,7 @@ class Offer
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -35,6 +37,7 @@ class Offer
      *      max = 200,
      *      minMessage = "Description can't be shorter than 7 letters !",
      *      maxMessage = "Description can't be shorter than 200 letters ! ")
+     * @Groups("post:read")
      */
     private $description;
 
@@ -42,6 +45,7 @@ class Offer
      * @var float
      *
      * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("post:read")
      */
     private $price;
 
@@ -49,6 +53,8 @@ class Offer
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=120, nullable=false)
+     * @Groups("post:read")
+     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $image;
 
@@ -57,9 +63,8 @@ class Offer
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
-     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $user;
 

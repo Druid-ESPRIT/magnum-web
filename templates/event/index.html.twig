@@ -1,0 +1,61 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>See what’s new</p>
+            <h2>Events</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+        <div class="container">
+            <div class="row">
+
+                {% for event in events %}
+                    <!-- Single Event Area -->
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-event-area mb-30">
+                            <div class="event-thumbnail">
+                                <img src="{{ asset('uploads/'~event.Image) }}" alt="">
+                            </div>
+                            <div class="event-text">
+                                <h4>{{ event.name }}</h4>
+                                <div class="event-meta-data">
+                                    <a href="#" class="event-place">{{ event.user.username }}</a>
+                                    <a href="#" class="event-date">{{ event.date|date('d/m/y') }} | {{ event.participants|length }} Participants</a>
+                                </div>
+                                <a href="{{ path('app_event_show', {'id': event.id}) }}" class="btn see-more-btn">See Event</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+
+
+
+            </div>
+
+           {# <div class="row">
+                <div class="col-12">
+                    <div class="load-more-btn text-center mt-70">
+                        <a href="#" class="btn oneMusic-btn">Load More <i class="fa fa-angle-double-right"></i></a>
+                    </div>
+                </div>
+            </div>#}
+        </div>
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+{% endblock %}
+

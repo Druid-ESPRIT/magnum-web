@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Users;
 
 /**
  * Order
@@ -19,6 +20,7 @@ class Order
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -26,6 +28,7 @@ class Order
      * @var int
      *
      * @ORM\Column(name="plan", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $plan;
 
@@ -33,6 +36,7 @@ class Order
      * @var float
      *
      * @ORM\Column(name="total", type="float", precision=10, scale=0, nullable=false)
+     * @Groups("post:read")
      */
     private $total;
 
@@ -40,6 +44,7 @@ class Order
      * @var string
      *
      * @ORM\Column(name="orderdate", type="string", length=30, nullable=false)
+     * @Groups("post:read")
      */
     private $orderdate;
 
@@ -47,6 +52,7 @@ class Order
      * @var string
      *
      * @ORM\Column(name="status", type="string", length=0, nullable=false)
+     * @Groups("post:read")
      */
     private $status;
 
@@ -55,7 +61,7 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;
