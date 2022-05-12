@@ -7,12 +7,14 @@ use \DateTime;
 use App\Entity\Users;
 use App\Entity\History;
 use App\Entity\Administrators;
+use App\Entity\Podcasters;
 use App\Form\SecurityDetailsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\Response\ResponseStream;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -139,6 +141,28 @@ class UserController extends AbstractController
             'activity'  => 'Security',
             'description' => 'You reset your password.',
         ]);
+    }
+
+    public function podcastersList(){
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $users=$user_repo->findAll();
+        
+        $key =[];
+        foreach ($users as $user)
+        {   
+           
+            if(in_array("ROLE_PODCASTERS", $user->getRoles())){
+                array_push($key,$user);
+            }
+            
+        }
+
+
+        return $this->render('user/podcasterslist.html.twig',
+        [ 'users' => $key ] 
+     );
+
     }
 }
 
