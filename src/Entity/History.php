@@ -50,7 +50,7 @@ class History
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="userID", referencedColumnName="id")
      * })
      */
 

@@ -10,6 +10,10 @@ user_profile:
     path: /profile
     controller: App\Controller\UserController::getProfileTab
 
+visit_user_profile:
+    path: /profile/{username}
+    controller: App\Controller\UserController::visitUserProfileTab
+
 user_history:
     path: /history
     controller: App\Controller\HistoryController::getHistoryTab
