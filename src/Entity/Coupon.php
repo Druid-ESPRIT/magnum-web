@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Coupon
@@ -19,6 +20,7 @@ class Coupon
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("post:read")
      */
     private $id;
 
@@ -26,6 +28,7 @@ class Coupon
      * @var int
      *
      * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $userId;
 
@@ -33,6 +36,7 @@ class Coupon
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=24, nullable=false)
+     * @Groups("post:read")
      */
     private $code;
 
@@ -40,6 +44,7 @@ class Coupon
      * @var int
      *
      * @ORM\Column(name="reduction", type="integer", nullable=false)
+     * @Groups("post:read")
      */
     private $reduction;
 
@@ -47,6 +52,7 @@ class Coupon
      * @var string
      *
      * @ORM\Column(name="used", type="string", length=10, nullable=false)
+     * @Groups("post:read")
      */
     private $used;
 
@@ -54,6 +60,7 @@ class Coupon
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="date", nullable=false)
+     * @Groups("post:read")
      */
     private $created;
 
