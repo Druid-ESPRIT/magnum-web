@@ -33,38 +33,45 @@
 	    <div class="classynav">
 	      <ul>
 		<li><a href="{{ url('home') }}">Home</a></li>
-		<li><a href="{{ url('app_event_index') }}">Events</a></li>
-		
-		{% if app.user %}
-		  {% if "ROLE_PODCASTERS" in app.user.roles %}
-	          <li><a href="{{ url('user_profile') }}" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    Manage
-		  </a>
-	          <ul class="dropdown">
-		      <a class="nav-link" href="{{ url('home') }}">Your offers</a>
-		      <li><a href="{{ url('app_event_new') }}">Create an event</a></li>
-		      <li><a href="{{ url('app_event_back') }}">Manage events</a></li>
-		      <li><a href="{{ url('app_event_wallet') }}">My Wallet</a></li>
-		  </ul>
-		  {% endif %}
-		  <li><a href="{{ url('user_profile') }}" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    @{{ app.user.username }}
-		  </a>
-		  <ul class="dropdown">
-		    <li><a href="{{ url('user_profile', { "username": app.user.username }) }}">Profile</a></li>
-		    <li><a class="nav-link" href="{{ url('user_security') }}">Security</a></li>
-		    <li><a class="nav-link" href="{{ url('user_history') }}">History</a></li>
-	            {% if app.user is instanceof('App\\Entity\\Administrators') %}
-		      <li><a href="{{ url('backend') }}">Backend</a></li>
-		    {% endif %}
-		    <li><a href="{{ path('app_logout') }}">Logout</a></li>
-		  </ul>
-		  </li>
-		{% else %}
-		  <li class="nav-item">
-		    <a class="nav-link" href="{{ path('app_login') }}">Login</a>
-		  </li>
-		{% endif %}
+		<li><a href="{{ url('podcasters_list') }}">Podcasters</a></li>
+			  <li><a href="{{ url('app_event_index') }}">Events</a>
+
+
+
+			  </li>
+		<li><a href="{{ path('front') }}">Articles</a></li>
+		<li><a href="{{ path('app_podcasts_indexfront') }}">Podcasts</a></li>
+
+      {% if app.user %}
+     
+{% if 'ROLE_PODCASTERS' in app.user.roles %}
+    <li><a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podcaster Center
+	</a>
+  <ul class="dropdown">
+	<li><a class="nav-link" href="{{ path('app_offer') }}">My offers</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_new') }}">Create event</a></li>
+	<li><a class="nav-link" href="{{ path('reco_index') }}">My articles</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_wallet') }}">My wallet</a></li>
+	</ul>
+  </li>
+ {% endif %}
+
+	    <li><a href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  {{ app.user.username }}
+	</a>
+  <ul class="dropdown">
+    <li><a href="{{ path('user_profile', { username: app.user.username }) }}">Profile</a></li>
+    <li><a class="nav-link" href="{{ url('user_security') }}">Security</a></li>
+    <li><a class="nav-link" href="{{ url('user_history') }}">History</a></li>
+	<li><a class="nav-link" href="{{ path('show',{'userid': app.user.id}) }}">Issues</a></li>
+	  <li><a href="{{ path('app_logout') }}">Logout</a></li>
+	</ul>
+  </li>
+      {% else %}
+      <li class="nav-item">
+	<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+      </li>
+      {% endif %}
 	      </ul>
 	    </div>
 	    <!-- Nav End -->

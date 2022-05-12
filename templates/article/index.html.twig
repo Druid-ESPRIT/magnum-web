@@ -1,17 +1,24 @@
-{% extends 'baseArticle.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Hello ArticleController!{% endblock %}
 
 {% block body %}
+{{ include('_navbar.html.twig') }}
+
 <section class="login-area section-padding-100">
 
 <h1>Gestion des articles </h1>
+
 <div>
-<p style="100px" > <input  id="myInput"  type="text" placeholder="search">
- <img src="https://img.icons8.com/nolan/344/google-web-search.png" style="width:50px;height:50px;"/></p>
+ <p style="100px" > <input  id="myInput"  type="text" placeholder="search">
+
+
  </div>
+
 <table class="table">
     <thead class="thead-dark">
+    
+
         <tr>
             <th>Id</th>
             <th>url</th>
@@ -22,6 +29,14 @@
         </tr>
     </thead>
     <tbody>
+    
+
+<tbody id="search">
+
+</tbody>
+<tbody>
+<tbody>
+<tbody id="myTable">
     {% for reco in recos %}
         <tr>
             <td>{{ reco.getId }}</td>
@@ -40,6 +55,9 @@
             <td colspan="7">no records found</td>
         </tr>
     {% endfor %}
+    <tbody id="search">
+
+    </tbody>
     </tbody>
 </table>
 <a class="btn btn-primary btn-icon-split" href="{{ path('reco_new') }}">
@@ -57,7 +75,6 @@
     Expoter
 </a>
 </section>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){

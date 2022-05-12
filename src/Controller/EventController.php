@@ -76,7 +76,8 @@ class EventController extends AbstractController
      */
     public function walletIndex(EventRepository $eventRepository, UsersRepository $userRepository)
     {
-        $events = $eventRepository->findAll();
+        $curr_user = $this->security->getUser(); 
+        $events = $eventRepository->findBy(['User'=>$curr_user]);
         $total = 0;
         $totalP =0;
         $earning=0;
@@ -87,7 +88,7 @@ class EventController extends AbstractController
             $totalP+=$event->getParticipants()->count();
         }
 
-        $curr_user = $this->security->getUser(); 
+      
         $repository=$this->getDoctrine()->getRepository(Order::class);
         $orders=$repository->findBy(['status' => "Completed", 'user' => $curr_user]);
 

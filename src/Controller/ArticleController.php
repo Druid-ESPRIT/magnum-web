@@ -21,12 +21,19 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/article")
  */
 class ArticleController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
      /**
      * @Route("/deletecom/{id}",name="deletecom",methods={"DELETE"})
      */
@@ -99,6 +106,9 @@ class ArticleController extends AbstractController
      */
     public function index(): Response
     {
+        /*$curr_user = $this->security->getUser(); 
+        $repository=$this->getDoctrine()->getRepository(Article::class);
+        $recos=$repository->findBy(['user' => $curr_user]);*/
         $recos = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();
