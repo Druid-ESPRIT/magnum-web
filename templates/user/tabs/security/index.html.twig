@@ -1,11 +1,10 @@
 {% extends 'user/base.html.twig' %}
 
-{% block title %} {{app.user.username}}'s security details {% endblock %}
+{% block title %} {{app.user.username}}'s security tab {% endblock %}
 {% block tab_title %} Security {% endblock %}
-{% block tab_description %} You can reset your security credentials here. {% endblock %}
+{% block tab_description %} Want to update your credentials? {% endblock %}
 
 {% block content %}
-
   <section class="login-area section-padding-100">
     <div class="container">
       <div class="row justify-content-center">
@@ -20,7 +19,7 @@
 	  
           <div class="login-content">
             <div class="login-form">
-              <form method="post">
+	      {{ form_start(form) }}
                 <div class="form-group">
 		  {{ form_label(form.password)}}
 		  {{ form_widget(form.password)}}
@@ -34,10 +33,10 @@
 	          {{ form_widget(form.newPassword.second) }}
 		</div>
 		{{ form_widget(form.confirm) }}
-              </form>
+	      {{ form_end(form) }}
             </div>
           </div>
-        </div>
+	</div>
       </div>
     </div>
   </section>

@@ -1,41 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Generate a token{% endblock %}
+
 {% block body %}
+  {{ include('_navbar.html.twig') }}
 
-<h3>Generate a Token</h3>
-
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-8">
-
-      {% for label, messages in app.flashes(['danger', 'success']) %}
-      {% for message in messages %}
-      <div class="alert alert-{{ label }}">
-	{{ message }}
-      </div>
-      {% endfor %}
-      {% endfor %}
-
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb.jpg')}});">
+    <div class="bradcumbContent">
+      <h2>Generate a token</h2>
     </div>
-  </div>
-</div>
-
-<div class="d-flex justify-content-center align-items-center">
-  <div class="container">
-
-    {{ form_start(form) }}
-      <div class="form-group row">
-	{{ form_label(form.username) }}
-	<div class="col-sm-3">
-	  {{ form_widget(form.username) }}
-	</div>
+  </section>
+  
+  <section class="login-area section-padding-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+	  {% for label, messages in app.flashes(['danger', 'success']) %}
+	    {% for message in messages %}
+	      <div class="alert alert-{{ label }}">
+		{{ message }}
+	      </div>
+	    {% endfor %}
+	  {% endfor %}
+	  
+          <div class="login-content">
+            <div class="login-form">
+	      {{ form_start(form) }}
+                <div class="form-group">
+		  {{ form_label(form.username)}}
+		  {{ form_widget(form.username)}}
+                </div>
+		{{ form_widget(form.generate) }}
+		{{ form_widget(form.skip) }}
+             {{ form_end(form) }}
+            </div>
+          </div>
+        </div>
       </div>
-
-      {{ form_widget(form.generate) }}
-    {{ form_end(form) }}
-
-    {{ form_widget(form.skip) }}
-  </div>
-</div>
-
+    </div>
+  </section>
+  
 {% endblock %}

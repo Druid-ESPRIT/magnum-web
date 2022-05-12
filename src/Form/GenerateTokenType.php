@@ -21,8 +21,8 @@ class GenerateTokenType extends AbstractType
             ->add("username", TextType::class, [
                 "required" => true,
                 "label" => "What's your username?",
-                "label_attr" => [
-                    "class" => "col-sm-2 col-form-label"
+                "attr" => [
+                    "class" => "form-control"
                 ],
                 "attr" => [
                     "id" => "username",

@@ -4,16 +4,17 @@
 
 {% block body %}
 
- {{ include('_navbar.html.twig') }}
+  {{ include('_navbar.html.twig') }}
 
+  {% block breadcrumb %}
   <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb3.jpg);">
     <div class="bradcumbContent">
-      <h2>{% block tab_title %} Profile {% endblock %}</h2>
-      <br>
       <p>{% block tab_description %} {% endblock %}</p>
+      <h2>{% block tab_title %} Profile {% endblock %}</h2>
     </div>
   </section>
+  {% endblock %}
 
-{% block content %} {% endblock %}
+  {% block content %} {% endblock %}
 
 {% endblock %}
