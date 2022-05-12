@@ -40,12 +40,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Security\Core\Security;
+use App\Entity\Order;
+
 
 /**
  * @Route("/event")
  */
 class EventController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
     /**
      * @Route("/", name="app_event_index", methods={"GET"})
      * @param EventRepository $eventRepository
@@ -70,6 +79,7 @@ class EventController extends AbstractController
         $events = $eventRepository->findAll();
         $total = 0;
         $totalP =0;
+        $earning=0;
 
         foreach ($events as $event)
         {
@@ -77,10 +87,20 @@ class EventController extends AbstractController
             $totalP+=$event->getParticipants()->count();
         }
 
+        $curr_user = $this->security->getUser(); 
+        $repository=$this->getDoctrine()->getRepository(Order::class);
+        $orders=$repository->findBy(['status' => "Completed", 'user' => $curr_user]);
+
+        foreach ($orders as $order)
+        {
+            $earning+=($order->getTotal() * 0.8);
+        }
+
         return $this->render('event/wallet.html.twig', [
             'events' => $events,
             'total'=>$total,
-            'totalP'=>$totalP
+            'totalP'=>$totalP,
+            'earning'=>$earning
         ]);
     }
 

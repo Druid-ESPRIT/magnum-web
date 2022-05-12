@@ -42,15 +42,18 @@
 		<li><a href="{{ url('home') }}">News</a></li>
 
       {% if app.user %}
-        {% if app.user.roles[0] == "ROLE_PODCASTERS" %}
-         <li class="nav-item active">
-       	<a class="nav-link" href="{{ url('home') }}">Your offers</a>
-			<li><a href="{{ url('app_event_new') }}">Add Event</a></li>
-			<li><a href="{{ url('app_event_back') }}">Back Event</a></li>
-			<li><a href="{{ url('app_event_wallet') }}">My Wallet</a></li>
-      </li>
+     
+{% if 'ROLE_PODCASTERS' in app.user.roles %}
+    <li><a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podcaster Center
+	</a>
+  <ul class="dropdown">
+	<li><a class="nav-link" href="{{ path('app_offer') }}">My offers</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_new') }}">Create event</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_wallet') }}">My wallet</a></li>
+	</ul>
+  </li>
+ {% endif %}
 
-      {% endif %}
 	    <li><a href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	  {{ app.user.username }}
 	</a>
