@@ -33,4 +33,4 @@ security:
         - { path: ^/profile, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
         - { path: ^/history, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
         - { path: ^/security, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
-        - { path: ^/backend, roles: ROLE_ADMINS }
+        - { path: ^/back, roles: [ROLE_ADMINS] }

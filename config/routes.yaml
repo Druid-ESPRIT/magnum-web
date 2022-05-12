@@ -32,8 +32,11 @@ reset_with_token:
     controller: App\Controller\TokenController::reset
 
 backend:
-    path: /backend
-    controller: App\Controller\BackendController::index
+    path: /back
+    controller: App\Controller\BackController::index
+backend_dashboard:
+    path: /back/dashboard
+    controller: App\Controller\BackController::loadCards
 
 backend_user_information:
     path: /backend/users/info

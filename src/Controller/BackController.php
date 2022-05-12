@@ -10,18 +10,14 @@ use App\Entity\Subscription;
 
 class BackController extends AbstractController
 {
-    /**
-     * @Route("/back", name="app_back")
-     */
+ 
     public function index(): Response
     {
         return $this->render('back/back.base.html.twig', [
             'controller_name' => 'BackController',
         ]);
     }
-    /**
-     * @Route("/dashboard", name="dashboard")
-     */
+  
     public function loadCards(): Response
     {
         $repository=$this->getDoctrine()->getRepository(Order::class);
