@@ -42,6 +42,31 @@ class UserController extends AbstractController
         );
     }
 
+    public function visitUserProfileTab(string $username): Response {
+
+        $user = new Users();
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $user = $user_repo->findOneBy(['username' => $username]);
+
+        if (is_null($user)) {
+            $this->addFlash(
+                'danger',
+                'The requested user does not exist.'
+            );
+            
+            return $this->render('user/tabs/profile/index.html.twig', [ 'user' => null ]);
+        }
+        
+        if (is_null($user->getAvatar())) {
+            $user->setAvatar('placeholder-avatar.svg');
+        }
+        
+        return $this->render('user/tabs/profile/index.html.twig',
+               [ 'user' => $user ]
+        );
+    }
+
     public function getRandomSuccessString(): string {
         $success_messages = array('Woohoo! ', 'Awesome! ', 'Nice! ');
         $index = array_rand($success_messages, 1);
