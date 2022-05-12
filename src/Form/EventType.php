@@ -52,13 +52,7 @@ class EventType extends AbstractType
                 'label' => 'Price',
                 'empty_data'=>0
             ])
-            /*->add('Status',ChoiceType::class,[
-                'label' => 'Status',
-                'choices'  => [
-                    'Finished' => "Finished",
-                    'Not Finished' => "Not Finished",
-                ],
-            ])*/
+
             ->add('Image',FileType::class,[
                 'label' => 'Picture',
                 'mapped' => false,
@@ -73,10 +67,7 @@ class EventType extends AbstractType
                     ])
                 ],
             ])
-           /* ->add('User',EntityType::class,[
-                'class'=>User::class,
-                'choice_label'=>'username'
-            ])*/
+
         ;
     }
 
@@ -84,6 +75,7 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+
         ]);
     }
 }

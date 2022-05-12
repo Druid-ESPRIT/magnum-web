@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Review;
+use App\Entity\User;
 use App\Form\EventType;
 use App\Form\ReviewType;
 use App\Repository\EventRepository;
 use App\Repository\ReviewRepository;
 use App\Repository\UserRepository;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Endroid\QrCode\Builder\Builder;
@@ -17,10 +19,12 @@ use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
 use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +32,14 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\CircularReferenceException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/event")
@@ -42,24 +53,23 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
+        $events = $eventRepository->findAll();
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $events,
         ]);
     }
 
-    /* Wallet */
     /**
      * @Route("/wallet",name="app_event_wallet")
      * @param EventRepository $eventRepository
-     * @param UserRepository $userRepository
+     * @param UsersRepository $userRepository
      * @return Response
      */
-    public function walletIndex(EventRepository $eventRepository, UserRepository $userRepository)
+    public function walletIndex(EventRepository $eventRepository, UsersRepository $userRepository)
     {
-        $user = $userRepository->find(1);
-        $events = $eventRepository->findBy(['User'=>$user]);
+        /* bch nzidha fin integration */
+        $events = $eventRepository->findBy(['User'=>$this->getUser()]);
         $total = 0;
-
         $totalP =0;
 
         foreach ($events as $event)
@@ -75,16 +85,17 @@ class EventController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/new", name="app_event_new", methods={"GET", "POST"})
      * @param Request $request
      * @param EventRepository $eventRepository
-     * @param UserRepository $userRepository
+     * @param UsersRepository $userRepository
      * @return Response
      */
-    public function new(Request $request, EventRepository $eventRepository,UserRepository $userRepository): Response
+    public function new(Request $request, EventRepository $eventRepository,UsersRepository $userRepository): Response
     {
-        $user = $userRepository->find(1);
+        $user = $this->getUser();
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -136,32 +147,30 @@ class EventController extends AbstractController
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
     }
 
+
     /**
      * @Route("/{id}", name="app_event_show", methods={"GET", "POST"})
      * @param Request $request
      * @param Event $event
      * @param EventRepository $eventRepository
      * @param ReviewRepository $reviewRepository
-     * @param UserRepository $userRepository
+     * @param UsersRepository $userRepository
      * @param ValidatorInterface $validator
      * @return Response
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function show(Request $request, Event $event,EventRepository $eventRepository, ReviewRepository $reviewRepository,UserRepository $userRepository,ValidatorInterface $validator): Response
+    public function show(Request $request, Event $event,EventRepository $eventRepository, ReviewRepository $reviewRepository,UsersRepository $userRepository,ValidatorInterface $validator): Response
     {
-        $user = $userRepository->find(1);
-        $reviews = $reviewRepository->findBy(["user"=>$user,"Event"=>$event]);
+        $user = $this->getUser();
+        $reviews = $reviewRepository->findBy(["Event"=>$event]);
 
-        $user2 = $userRepository->find(2);
+
         $participants = $event->getParticipants();
 
         /* Event is Full */
         $isFull = $event->getMaxParticipants() == $participants->count();
         /* ---------------- */
-
-
-
 
 
         $review = new Review();
@@ -195,7 +204,7 @@ class EventController extends AbstractController
 
         }
 
-        if($participants->contains($user2))
+        if($participants->contains($user))
         {
             return $this->render('event/show.html.twig', [
                 'errors'=> '',
@@ -264,14 +273,14 @@ class EventController extends AbstractController
      * @param ReviewRepository $reviewRepository
      * @param ValidatorInterface $validator
      * @param Event $event
-     * @param UserRepository $userRepository
+     * @param UsersRepository $userRepository
      * @return Response
      * @throws TransportExceptionInterface
      * @Route("/{id}/participate",name="app_event_participate",methods={"GET","POST"})
      */
-    public function UserParticipate(MailerInterface $mailer,Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UserRepository $userRepository)
+    public function UserParticipate(MailerInterface $mailer,Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UsersRepository $userRepository)
     {
-        $user = $userRepository->find(2);
+        $user = $this->getUser();
         $participants = $event->getParticipants();
 
 
@@ -328,9 +337,6 @@ class EventController extends AbstractController
            return $this->redirectToRoute('app_event_show', ['id'=>$event->getId()], Response::HTTP_SEE_OTHER);
             }
 
-
-
-
         }
 
     }
@@ -341,13 +347,13 @@ class EventController extends AbstractController
      * @param ReviewRepository $reviewRepository
      * @param ValidatorInterface $validator
      * @param Event $event
-     * @param UserRepository $userRepository
+     * @param UsersRepository $userRepository
      * @return Response
      * @Route("/{id}/sparticipate",name="app_event_sparticipate",methods={"GET","POST"})
      */
-    public function RemoveUserParticipate(Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UserRepository $userRepository)
+    public function RemoveUserParticipate(Request $request,EventRepository $eventRepository,ReviewRepository $reviewRepository, ValidatorInterface $validator, Event $event,UsersRepository $userRepository)
     {
-        $user = $userRepository->find(2);
+        $user = $this->getUser();
         $participants = $event->getParticipants();
 
         if($participants->contains($user))
@@ -360,6 +366,7 @@ class EventController extends AbstractController
 
 
     }
+
 
 
 }

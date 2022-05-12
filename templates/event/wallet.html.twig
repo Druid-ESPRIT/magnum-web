@@ -4,7 +4,6 @@
 
 {% block body %}
 
-{{ include('_ellipsis.html.twig') }}
 {{ include('_navbar.html.twig') }}
 
     <!-- ##### Breadcumb Area Start ##### -->
@@ -82,7 +81,6 @@
 
                                     {% if event.participants|length * event.Prix > 0  %}
                                         <a href="#" class="event-place">Gains : {{ event.participants|length * event.Prix }} DT</a>
-
                                     {% else %}
                                         <a href="#" class="event-place">No Participants Yet</a>
                                         {% endif %}

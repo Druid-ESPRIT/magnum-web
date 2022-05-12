@@ -1,22 +1,9 @@
-{#{% extends 'base.html.twig' %}
-
-{% block title %}New Event{% endblock %}
-
-{% block body %}
-    <h1>Create new Event</h1>
-
-    {{ include('event/_form.html.twig') }}
-
-    <a href="{{ path('app_event_index') }}">back to list</a>
-{% endblock %}
-#}
 
 
 {% extends 'base.html.twig' %}
 
 {% block body %}
 
-    {{ include('_ellipsis.html.twig') }}
     {{ include('_navbar.html.twig') }}
 
     <!-- ##### Breadcumb Area Start ##### -->

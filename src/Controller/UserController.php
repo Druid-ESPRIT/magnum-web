@@ -2,87 +2,99 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\UserType;
-use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use \Exception;
+use \DateTime;
+use App\Entity\Users;
+use App\Entity\History;
+use App\Entity\Administrators;
+use App\Form\SecurityDetailsType;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-/**
- * @Route("/user")
- */
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/", name="app_user_index", methods={"GET"})
-     */
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
+    private $security;
+
+    public function __construct(Security $security) {
+        $this->security = $security;
     }
 
-    /**
-     * @Route("/new", name="app_user_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, UserRepository $userRepository): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+    public function getProfileTab(): Response {
+        $user = $this->security->getUser();
+
+        /* Set a placeholder avatar for users that don't have one. */
+        if (is_null($user->getAvatar())) {
+            $user->setAvatar('placeholder-avatar.svg');
+        }
+
+        return $this->render('user/tabs/profile/index.html.twig',
+               [ 'user' => $user ]
+        );
+    }
+
+    public function getRandomSuccessString(): string {
+        $success_messages = array('Woohoo! ', 'Awesome! ', 'Nice! ');
+        $index = array_rand($success_messages, 1);
+        $msg = $success_messages[$index];
+        return $msg;
+    }
+
+    public function getSecurityTab(Request $request): Response {
+        $user = new Users();
+        $form = $this->createForm(SecurityDetailsType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user);
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        if ($form->isSubmitted()) {
+			if (!$form->isValid()) {
+                $this->addFlash('danger', 'The passwords you provided do not match, please try again.');
+                return $this->render("user/tabs/security/index.html.twig", [
+                    'form' => $form->createView()
+                ]);
+			}
+
+            try {
+                $this->resetSecurityDetails($form);
+                $this->addFlash(
+                    'success',
+                    $this->getRandomSuccessString() . 'Your password has been successfully reset!'
+                );
+            } catch (CurrentPasswordException $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
 
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
+        return $this->render("user/tabs/security/index.html.twig", [
+            'form' => $form->createView()
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="app_user_show", methods={"GET"})
-     */
-    public function show(User $user): Response
-    {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
-    }
+    public function resetSecurityDetails($user_form): void {
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $user = $this->security->getUser();
 
-    /**
-     * @Route("/{id}/edit", name="app_user_edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
+        $data = new Users();
+        $data = $user_form->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user);
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        /* Fail if the current password hash does not match the user's password */
+        if (!password_verify($data->getPassword(), $user->getPassword())) {
+            throw new CurrentPasswordException('The current password field does not match your actual password.');
         }
 
-        return $this->render('user/edit.html.twig', [
+        $hashed_pw = password_hash($data->getPassword(), PASSWORD_BCRYPT);
+        $user->setPassword($hashed_pw);
+        $man->persist($user);
+        $man->flush();
+
+        $this->forward('App\Controller\HistoryController::addToHistory', [
             'user' => $user,
-            'form' => $form->createView(),
+            'activity'  => 'Security',
+            'description' => 'You reset your password.',
         ]);
-    }
-
-    /**
-     * @Route("/{id}", name="app_user_delete", methods={"POST"})
-     */
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $userRepository->remove($user);
-        }
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
+
+class CurrentPasswordException extends Exception {}

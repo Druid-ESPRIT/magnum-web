@@ -4,7 +4,6 @@
 
 {% block body %}
 
-    {{ include('_ellipsis.html.twig') }}
     {{ include('_navbar.html.twig') }}
 
     <!-- ##### Breadcumb Area Start ##### -->
@@ -68,10 +67,14 @@
 
                             {% else %}
 
+                            {% if app.user.roles[0] != "ROLE_PODCASTERS" %}
+
                                 {% if participe == true %}
                                     <a class="btn btn-success" style="width: 100%" href="{{ path('app_event_participate', {'id': event.id}) }}">Participate</a><br>
                                 {% else %}
                                     <a class="btn btn-danger" style="width: 100%" href="{{ path('app_event_sparticipate', {'id': event.id}) }}">Cancel Participation</a><br>
+                                {% endif %}
+
                                 {% endif %}
 
 
@@ -80,11 +83,12 @@
                     </div>
                 </div>
 
-
+                {% if app.user.roles[0] == "ROLE_PODCASTERS" and app.user == event.user %}
                 <div class="col-12 col-lg-4">
                     <a class="btn btn-info" href="{{ path('app_event_edit', {'id': event.id}) }}">Update Event</a>
                     <a class="btn btn-danger" href="{{ path('app_event_delete', {'id': event.id}) }}">Cancel Event</a>
                 </div>
+                {% endif %}
 
 
             </div>

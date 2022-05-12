@@ -22,16 +22,7 @@ class ReviewType extends AbstractType
                 'attr'=>['placeholder'=>'Your Review',
                     'class'=>'form-control','id'=>'message','cols'=>30,'rows'=>10],
             ])
-           /* ->add('user',EntityType::class,[
-                'label'=>'User',
-                'class'=>User::class,
-                'choice_label'=>'username'
-            ])
-            ->add('Event',EntityType::class,[
-                'label'=>'Event',
-                'class'=>Event::class,
-                'choice_label'=>'name'
-            ])*/
+
 
         ;
     }
