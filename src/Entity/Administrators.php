@@ -42,7 +42,6 @@ class Administrators extends Users implements \Serializable
      */
     private $lastname;
 
-
     public function getRoles()
     {
         return array('ROLE_ADMINS');

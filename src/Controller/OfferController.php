@@ -10,6 +10,7 @@ use App\Entity\Users;
 use App\Repository\OfferRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OfferType;
+use Doctrine\ORM\Query\Expr\Orx;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
