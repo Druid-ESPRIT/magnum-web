@@ -7,6 +7,7 @@ parameters:
     uploads_directory: '%kernel.project_dir%/public/uploads'
     avatar_directory: '%kernel.project_dir%/public/uploads/avatars'
     img_directory: '%kernel.project_dir%/public/img/ofs-img'
+    uploads : '%kernel.project_dir%/public/uploads/'
 
 
 services:

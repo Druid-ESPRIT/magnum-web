@@ -30,9 +30,9 @@ class Users implements UserInterface, \Serializable
     /**
      * @var int
      *
-     * @ORM\Column(name="ID", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -70,6 +70,16 @@ class Users implements UserInterface, \Serializable
      * @ORM\Column(name="status", type="string", length=30, nullable=true)
      */
     private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="User", orphanRemoval=true)
+     */
+    private $Events;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="user")
+     */
+    private $Reviews;
 
     /* Used in security details form */
     private $newPassword;
@@ -156,6 +166,14 @@ class Users implements UserInterface, \Serializable
         return array('ROLE_USERS');
     }
 
+    public function getType() {
+        try {
+            return (new \ReflectionClass($this))->getShortName();
+        } catch (\ReflectionException $e) {
+        }
+        return '';
+    }
+
     public function eraseCredentials() {}
 
     /**
@@ -194,6 +212,8 @@ class Users implements UserInterface, \Serializable
             $this->password
         ) = unserialize($serialized, array('allowed_classes' => false));
     }
+
+
 
 }
 

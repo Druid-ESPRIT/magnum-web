@@ -34,14 +34,22 @@
 	      <ul>
 		<li><a href="{{ url('home') }}">Home</a></li>
 		<li><a href="{{ url('home') }}">Albums</a></li>
-		<li><a href="{{ url('home') }}">Events</a></li>
+			  <li><a href="{{ url('app_event_index') }}">Events</a>
+
+
+
+			  </li>
 		<li><a href="{{ url('home') }}">News</a></li>
-	   </li>
+
       {% if app.user %}
-        {% if app.user == "podcasters" %}
+        {% if app.user.roles[0] == "ROLE_PODCASTERS" %}
          <li class="nav-item active">
        	<a class="nav-link" href="{{ url('home') }}">Your offers</a>
+			<li><a href="{{ url('app_event_new') }}">Add Event</a></li>
+			<li><a href="{{ url('app_event_back') }}">Back Event</a></li>
+			<li><a href="{{ url('app_event_wallet') }}">My Wallet</a></li>
       </li>
+
       {% endif %}
 	    <li><a href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	  {{ app.user.username }}

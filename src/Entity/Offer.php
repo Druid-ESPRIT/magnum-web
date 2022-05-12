@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
@@ -54,6 +54,7 @@ class Offer
      *
      * @ORM\Column(name="image", type="string", length=120, nullable=false)
      * @Groups("post:read")
+     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $image;
 
@@ -62,9 +63,8 @@ class Offer
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
-     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $user;
 

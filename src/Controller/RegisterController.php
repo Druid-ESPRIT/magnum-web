@@ -32,7 +32,7 @@ class RegisterController extends AbstractController
                     "message" =>
                         "A user with the same username/email exists within our records",
                 ];
-                return $this->redirectToRoute("app_home", [
+                return $this->redirectToRoute("home", [
                     "form" => $form->createView(),
                     "errors" => $errors,
                 ]);
