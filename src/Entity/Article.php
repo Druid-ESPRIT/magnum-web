@@ -54,7 +54,7 @@ class Article
      *
      * @ORM\ManyToOne(targetEntity="Podcasters")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="authorID", referencedColumnName="ID")
+     * @ORM\JoinColumn(name="authorID", referencedColumnName="id")
   
      * })
      */

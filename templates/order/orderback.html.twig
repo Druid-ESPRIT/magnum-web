@@ -51,7 +51,7 @@
                         <tbody>
                         {% for ors in orders %}
                             <tr>
-                                <td> <img width="20%" height="20%" src="{{ asset('img/ofs-img/'~ ors.Offer.image) }}" alt=""></td>
+                                <td> <img width="50px" height="50px" src="{{ asset('img/ofs-img/'~ ors.Offer.image) }}" alt=""></td>
                                 <td>{{ ors.user.username }}</td>
                                 <td>{{ ors.plan }} month(s)</td>
                                 <td>${{ ors.total }}</td>
