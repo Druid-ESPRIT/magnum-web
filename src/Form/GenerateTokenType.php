@@ -43,9 +43,6 @@ class GenerateTokenType extends AbstractType
     {
         $resolver->setDefaults([
             "data_class" => Users::class,
-            "attr" => [
-                "class" => "form-inline",
-              ]
         ]);
     }
 }

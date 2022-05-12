@@ -48,7 +48,7 @@
 		  </ul>
 		  {% endif %}
 		  <li><a href="{{ url('user_profile') }}" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		    {{ app.user.username }}
+		    @{{ app.user.username }}
 		  </a>
 		  <ul class="dropdown">
 		    <li><a href="{{ url('user_profile', { "username": app.user.username }) }}">Profile</a></li>

@@ -47,7 +47,7 @@
           <div class="login-content">
             <div class="login-form">
 	      <div class="form-group">
-		<img class="user-avatar" src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+		<img style="width:90px;height:90px;" src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
               </div>
 	      <div class="form-group">
 		<label for="emailInput">Email</label>
@@ -55,16 +55,19 @@
               </div>
               <div class="form-group">
 		<label for="usernameInput">Username</label>
-                <input type="text" class="form-control" id="usernameInput" value="{{ username }} # {{ id }}" disabled>
+                <input type="text" class="form-control" id="usernameInput" value="{{ username }}" disabled>
               </div>
 	      <div class="form-group">
 		<label for="statusInput">Status</label>
                 <input type="text" class="form-control" id="statusInput" value="{{ status }}" disabled>
               </div>
 	       <div class="form-group">
-		<label for="rolesInput">Roles</label>
+		 <label for="rolesInput">Roles</label>
                 <input type="text" class="form-control" id="rolesInput" value="{{ role|split('\\')|last|trim('s','right')  }}" disabled>
-              </div>
+               </div>
+	       {% if user is instanceof ("App\\Entity\\Podcasters") %}
+		 <a class="btn btn-primary" href="#" role="button">See my offers!</a>
+	       {% endif %}
             </div>
           </div>
          {% endif %}
