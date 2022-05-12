@@ -30,7 +30,7 @@ class OfferController extends AbstractController
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $curr_user = $this->security->getUser(); 
-        $offers=$repository->findBy(['user' => $curr_user->getID()]);
+        $offers=$repository->findBy(['user' => $curr_user]);
         $pagedOffers = $paginator->paginate(
             $offers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
@@ -151,7 +151,9 @@ class OfferController extends AbstractController
     }*/
 
 
-        /**
+
+
+    /**
      * @Route("/offerlistmobile", name="offerlistmobile")
      */
     public function showOffersForMobile(Request $request)
@@ -247,6 +249,5 @@ class OfferController extends AbstractController
         return new JsonResponse("offer id Invalid.");
 
 
-    } 
-
+    }
 }

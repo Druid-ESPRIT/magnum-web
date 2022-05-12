@@ -32,7 +32,14 @@ reset_with_token:
 
 backend:
     path: /back
+<<<<<<< HEAD
     controller: App\Controller\BackendController::index
+=======
+    controller: App\Controller\BackController::index
+backend_dashboard:
+    path: /back/dashboard
+    controller: App\Controller\BackController::loadCards
+>>>>>>> 2cc35d931744e7ebd52bb19855be20a9086e3932
 
 backend_user_information:
     path: /back/users/info

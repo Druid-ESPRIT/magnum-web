@@ -27,9 +27,7 @@ class BackController extends AbstractController
             'controller_name' => 'BackController',
         ]);
     }
-    /**
-     * @Route("/dashboard", name="dashboard")
-     */
+  
     public function loadCards(): Response
     {
         $repository=$this->getDoctrine()->getRepository(Order::class);

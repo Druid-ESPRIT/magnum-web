@@ -575,6 +575,8 @@
     },
     "symfony/stopwatch": {
         "version": "v4.4.38"
+    "symfony/string": {
+        "version": "v5.4.3"
     },
     "symfony/string": {
         "version": "v5.3.10"
@@ -592,6 +594,7 @@
             "config/packages/swiftmailer.yaml",
             "config/packages/test/swiftmailer.yaml"
         ]
+>>>>>>> main
     },
     "symfony/translation": {
         "version": "4.4",
