@@ -1,11 +1,11 @@
 {% extends 'user/base.html.twig' %}
 
 {% block title %} {{app.user.username}}'s security details {% endblock %}
+{% block tab_title %} Security {% endblock %}
+{% block tab_description %} You can reset your security credentials here. {% endblock %}
 
 {% block content %}
   <div class="container">
-    <h1>Security credentials</h1>
-    <p>You can reset your security credentials here.</p>
     <div class="row justify-content-center">
       <div class="col-12 col-lg-8">
 	{% for label, messages in app.flashes(['danger', 'success']) %}
@@ -39,7 +39,7 @@
       </div>
 
       {{ form_widget(form.confirm) }}
-  </div>
     {{ form_end(form) }}
+  </div>
   </div>
 {% endblock %}
