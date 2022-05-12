@@ -7,9 +7,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Order;
 use App\Entity\Subscription;
+use Symfony\Component\Security\Core\Security;
 
 class BackController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+    }
+
     /**
      * @Route("/back", name="app_back")
      */
@@ -45,7 +53,6 @@ class BackController extends AbstractController
         {
             $user=($order->getUser()->getUsername());
         }
-
 
         $active = $subRepository->findBy(['status' => "Active"]);
         $onhold = $subRepository->findBy(['status' => "On Hold"]);

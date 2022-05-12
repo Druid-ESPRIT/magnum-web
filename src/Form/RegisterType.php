@@ -23,18 +23,18 @@ class RegisterType extends AbstractType
     ): void {
         $builder
             ->add("username", TextType::class, [
-                "label" => false,
+                "label" => "Username",
                 "attr" => [
                     "class" => "form-control",
                     "placeholder" => "Username",
                 ],
             ])
             ->add("email", EmailType::class, [
-                "label" => false,
+                "label" => "Email",
                 "attr" => ["class" => "form-control", "placeholder" => "Email"],
             ])
             ->add("password", PasswordType::class, [
-                "label" => false,
+                "label" => "Password",
                 "attr" => [
                     "class" => "form-control",
                     "placeholder" => "Password",

@@ -47,6 +47,9 @@ class BackendEditUserType extends AbstractType
             ])
             ->add("edit", SubmitType::class, [
                 "attr" => ["class" => "btn btn-warning"],
+            ])
+            ->add("back", SubmitType::class, [
+                "attr" => ["class" => "btn btn-primary"],
             ]);
     }
 

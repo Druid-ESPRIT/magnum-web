@@ -31,21 +31,21 @@ reset_with_token:
     controller: App\Controller\TokenController::reset
 
 backend:
-    path: /backend
+    path: /back
     controller: App\Controller\BackendController::index
 
 backend_user_information:
-    path: /backend/users/info
+    path: /back/users/info
     controller: App\Controller\BackendController::getUserInformation
 
 backend_user_history:
-    path: /backend/users/history/{username}
+    path: /back/users/history/{username}
     controller: App\Controller\BackendController::getUserHistory
 
 backend_user_flags:
-    path: /backend/users/flags/{username}
+    path: /back/users/flags/{username}
     controller: App\Controller\BackendController::getUserFlags
 
 backend_user_manage:
-    path: /backend/users/edit/{username}
+    path: /back/users/edit/{username}
     controller: App\Controller\BackendController::manageUser
