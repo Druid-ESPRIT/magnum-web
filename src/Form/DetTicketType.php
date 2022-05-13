@@ -22,7 +22,7 @@ class DetTicketType extends AbstractType
     {
         $builder
 
-        ->add('userid',TextType::class,['constraints'=>new NotBlank(['message'=>'please write'])])
+       ->add('userid',TextType::class,['constraints'=>new NotBlank(['message'=>'please write'])])
            ->add('subject',TextType::class,['constraints'=>new NotBlank(['message'=>'please write'])])
            ->add('description',TextareaType::class,['constraints'=>new NotBlank(['message'=>'please write'])])
            ->add('creationdate', DateTimeType::class)

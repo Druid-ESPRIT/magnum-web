@@ -256,7 +256,7 @@ class ArticleController extends AbstractController
      */
     public function reco_single(ArticleRepository $recoRepository,$id,Request $request,UsersRepository $clientRepository,CommentaireRepository $commentRepository): Response
     {      
-
+        $curr_user = $this->security->getUser(); 
         $Recotype = $recoRepository->findBy(['id' => $id]);
         $comment = new Commentaire();
         $form = $this->createForm(CommentaireType::class,$comment);
@@ -266,7 +266,7 @@ class ArticleController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $val = $entityManager->getRepository(Article::class)->find($id);
-            $userr = $entityManager->getRepository(Users::class)->find(2);
+            $userr = $entityManager->getRepository(Users::class)->find($curr_user->getID());
 
             $comment->setSubmitDate(new \DateTime())
                 ->setArticleid($val)
