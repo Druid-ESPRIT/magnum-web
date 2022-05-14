@@ -63,6 +63,9 @@
     <li><a href="{{ path('user_profile', { username: app.user.username }) }}">Profile</a></li>
     <li><a class="nav-link" href="{{ url('user_security') }}">Security</a></li>
     <li><a class="nav-link" href="{{ url('user_history') }}">History</a></li>
+	 {% if app.user is instanceof('App\\Entity\\Administrators') %}
+		      <li><a href="{{ url('backend') }}">Backend</a></li>
+		    {% endif %}
 	<li><a class="nav-link" href="{{ path('show',{'userid': app.user.id}) }}">Issues</a></li>
 	  <li><a href="{{ path('app_logout') }}">Logout</a></li>
 	</ul>
