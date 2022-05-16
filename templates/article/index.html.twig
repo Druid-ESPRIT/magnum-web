@@ -1,71 +1,66 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ArticleController!{% endblock %}
-
 {% block body %}
+
 {{ include('_navbar.html.twig') }}
 
-<section class="login-area section-padding-100">
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <h2>Articles</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
 
-<h1>Gestion des articles </h1>
+    <!-- ##### Events Area Start ##### -->
+    <section class="articles-area section-padding-100">
+        <div class="container">
+        <div class="row">
+           
 
-<div>
- <p style="100px" > <input  id="myInput"  type="text" placeholder="search">
+                {% for reco in recos %}
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                      
+                        
+                        <p style="text-align:center"><B>{{ reco.title }}</B></p>
+                     <center> <a href="#"><img style="width: 50%" src="{{ asset('uploads/'~reco.content) }}" alt=""></a></center>
+                        <br>
+                        <div>
+                             <center> <a href="{{asset('uploads/' ~ reco.url)}}"
+                   class="btn btn-success">PDF</a></center>
+                   
+                 
+                <center>{{ include('article/_delete_form.html.twig') }}
+                                               
+													<a  href="{{ path('reco_edit', {'id': reco.getId()}) }}">
+														<i class="fas fa-edit"></i>
+													</a></center>
+             
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
 
 
- </div>
 
-<table class="table">
-    <thead class="thead-dark">
-    
 
-        <tr>
-            <th>Id</th>
-            <th>url</th>
-            <th>content</th>
-            <th>Titre</th>
 
-            <th>actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    
+         </div>
 
-<tbody id="search">
 
-</tbody>
-<tbody>
-<tbody>
-<tbody id="myTable">
-    {% for reco in recos %}
-        <tr>
-            <td>{{ reco.getId }}</td>
-            <td>{{ reco.getUrl }}</td>
-            <td>{{ reco.getContent }}</td>
-            <td>{{ reco.getTitle }}</td>
+            </div>
 
-            <td>
-                <a  class="btn btn-success btn-circle btn-lg" href="{{ path('reco_edit', {'id': reco.getId()}) }}"><i class="fas fa-edit"></i></a>
-                {{ include('article/_delete_form.html.twig') }}
-            </td>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="7">no records found</td>
-        </tr>
-    {% endfor %}
-    <tbody id="search">
 
-    </tbody>
-    </tbody>
-</table>
-<a class="btn btn-primary btn-icon-split" href="{{ path('reco_new') }}">
+        </div>
 
+         </section>
+<br>
+ <a class="btn btn-primary btn-icon-split" href="{{ path('reco_new') }}">
 <span class="icon text-white-50">
                                         <i class="fas fa-arrow-right"></i>
-                                    </span>
-    <span class="text">Ajouter un article</span>
+                                    </span>  
+<span class="text">Ajouter un article</span>
 </a>
 <a href="{{ path('pdf1') }}" class="btn btn-light">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
@@ -74,7 +69,7 @@
     </svg>
     Expoter
 </a>
-</section>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
@@ -86,4 +81,10 @@
             });
         });
     </script>
+     <br>
+    <br>
+
+    <div>
+        {{ knp_pagination_render(recos) }}
+    </div>
 {% endblock %}

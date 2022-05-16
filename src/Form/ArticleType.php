@@ -22,14 +22,18 @@ class ArticleType extends AbstractType
         $builder
             //->add('authorID')
             ->add('title')
-            ->add('content')
-            ->add('url',FileType::class,array('data_class' => null),
+            ->add('content', FileType::class, array('label' => 'content','data_class' => null))
+            ->add('url', FileType::class, array('label' => 'url','data_class' => null))
+           
+       
+         
+           /* ->add('url',FileType::class,array('data_class' => null),
             array(
                 'label' => 'file(pdf)',
                 'mapped'=>false,
                 'required'=>false,
                
-        ))
+        ))*/
         ;
     }
 

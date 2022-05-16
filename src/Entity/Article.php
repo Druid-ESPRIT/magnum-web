@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serialize\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Article
  *
@@ -21,14 +22,18 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
+   
      
-     *  @return AnnotationException
+     * @return AnnotationException
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="please write the title")
+     * @Groups("post:read")
      
     
      */
@@ -37,6 +42,9 @@ class Article
     /**
      * @var string
      * @ORM\Column(name="url", type="text", length=0, nullable=false)
+     * @Assert\NotBlank(message="please upload pdf")
+     * @Assert\File(mimeTypes={"application/pdf"})
+     * @Groups("post:read")
      
      */
     private $url;
@@ -45,6 +53,7 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="string", length=255, nullable=false)
+     * @Groups("post:read")
   
      */
     private $content;
