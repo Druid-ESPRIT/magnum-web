@@ -681,13 +681,13 @@
         "version": "2.2.4"
     },
     "twig/cssinliner-extra": {
-        "version": "v3.3.5"
+        "version": "v3.4.0"
     },
     "twig/extra-bundle": {
-        "version": "v3.3.8"
+        "version": "v3.4.0"
     },
     "twig/twig": {
-        "version": "v3.3.10"
+        "version": "v3.4.1"
     },
     "webmozart/assert": {
         "version": "1.10.0"

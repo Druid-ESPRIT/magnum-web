@@ -4,12 +4,12 @@
 
 {% block body %}
 
-    {{ include('_navbar.html.twig') }}
+{{ include('_navbar.html.twig') }}
 
     <!-- ##### Breadcumb Area Start ##### -->
     <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
         <div class="bradcumbContent">
-            <p>Add new Event</p>
+            <h2>Add new Event</h2>
         </div>
     </section>
     <!-- ##### Breadcumb Area End ##### -->
@@ -17,7 +17,7 @@
     <!-- ##### Events Area Start ##### -->
     <section class="events-area section-padding-100">
         <div class="container">
-            <div class="row">
+            <div class="card-body">
 
                 {{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_widget(form) }}
@@ -26,8 +26,8 @@
             </div>
         </div>
     </section>
-    <!-- ##### Events Area End ##### -->
 
+    <!-- ##### Events Area End ##### -->
 
 {% endblock %}
 

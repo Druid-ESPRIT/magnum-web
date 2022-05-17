@@ -31,7 +31,7 @@ class Commentaire
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="submitDate", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="submitDate", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $submitdate = 'CURRENT_TIMESTAMP';
 

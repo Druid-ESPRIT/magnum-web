@@ -345,7 +345,7 @@
 
         <!-- Page Heading -->
         <h1 class="h3 mb-2 text-gray-800">Events List</h1>
-        <p class="mb-4">Events List For Prodcaster</p>
+        <p class="mb-4">Events List</p>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
@@ -357,6 +357,7 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
+							<th>Podcaster</th>
                             <th>Event Name</th>
                             <th>Event Description</th>
                             <th>Event Type</th>
@@ -371,6 +372,7 @@
                         <tbody>
                         {% for event in events %}
                             <tr>
+								<td>{{ event.user.username }}</td>
                                 <td>{{ event.name }}</td>
                                 <td>{{ event.description }}</td>
                                 <td>{{ event.type }}</td>
