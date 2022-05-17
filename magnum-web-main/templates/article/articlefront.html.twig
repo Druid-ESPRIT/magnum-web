@@ -1,0 +1,57 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>See what’s new</p>
+            <h2>Articles</h2>
+        </div>
+    </section>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Events Area Start ##### -->
+    <section class="articles-area section-padding-100">
+        <div class="container">
+            <div class="row">
+
+                 {% for reco in recos %}
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        
+                        
+                        <p style="text-align:center"><B>{{ reco.title }}</B></p>
+                     <center> <a href="#"><img style="width: 50%" src="{{ asset('uploads/'~reco.content) }}" alt=""></a></center>
+                        <br>
+                        <div>
+                             <center> <a href="{{asset('uploads/' ~ reco.url)}}"
+                   class="btn btn-success">PDF</a></center>
+                           <center> <p><a href="{{ path('reco_single', {'id': reco.getId()}) }}">Read more</a></p></center>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+
+
+
+         </div>
+
+
+            </div>
+
+
+        </div>
+    </section>
+   
+    <div>
+        {{ knp_pagination_render(recos) }}
+    </div>
+
+    <section/>
+{% endblock %}

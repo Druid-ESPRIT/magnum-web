@@ -1,0 +1,60 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ include('_navbar.html.twig') }}
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
+        <div class="bradcumbContent">
+            <p>See what’s new</p>
+            <h2>Crete Article</h2>
+        </div>
+    </section>
+
+
+
+
+
+
+{{ form_start(form) }}
+<section class="login-area section-padding-100">
+
+<div>
+    <div class="form-group">
+        {{ form_label(form.title, "title ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.title, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.url, "url ") }}
+
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.url, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.content, "content ") }}
+
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.content, {'attr':{'class':'form-control col-sm-6'}}) }}
+    </div>
+    
+
+    <div>
+        <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+    </div>
+</div>
+<section/>
+{{ form_end(form) }}
+
+{% endblock body %}

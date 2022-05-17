@@ -1,0 +1,36 @@
+security:
+    providers:
+        all_users:
+            chain:
+                providers: [ 'administrators', 'podcasters', 'users' ]
+
+        users:
+            entity: { class: 'App\Entity\Users', property: username }
+
+        administrators:
+            entity: { class: 'App\Entity\Administrators', property: id }
+
+        podcasters:
+            entity: { class: 'App\Entity\Podcasters', property: id }
+        
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            provider: all_users
+            anonymous: lazy
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+    encoders:
+        App\Entity\Users:
+            algorithm: bcrypt
+
+    access_control:
+        - { path: ^/profile, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/history, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/security, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/back, roles: [ROLE_ADMINS] }

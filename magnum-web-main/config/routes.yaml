@@ -1,0 +1,62 @@
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+user_security:
+    path: /security
+    controller: App\Controller\UserController::getSecurityTab
+
+user_profile:
+    path: /profile
+    controller: App\Controller\UserController::getProfileTab
+
+visit_user_profile:
+    path: /profile/{username}
+    controller: App\Controller\UserController::visitUserProfileTab
+
+user_history:
+    path: /history
+    controller: App\Controller\HistoryController::getHistoryTab
+
+register_user:
+    path: /register
+    controller: App\Controller\RegisterController::register
+
+generate_token:
+    path: /token/generate
+    controller: App\Controller\TokenController::generate
+
+input_token:
+    path: /token/input/{username}
+    controller: App\Controller\TokenController::input
+
+reset_with_token:
+    path: /token/reset/{username}/{token}
+    controller: App\Controller\TokenController::reset
+
+backend:
+    path: /back
+    controller: App\Controller\BackController::index
+    
+backend_dashboard:
+    path: /back/dashboard
+    controller: App\Controller\BackController::loadCards
+
+backend_user_information:
+    path: /back/users/info
+    controller: App\Controller\BackendController::getUserInformation
+
+backend_user_history:
+    path: /back/users/history/{username}
+    controller: App\Controller\BackendController::getUserHistory
+
+backend_user_flags:
+    path: /back/users/flags/{username}
+    controller: App\Controller\BackendController::getUserFlags
+
+backend_user_manage:
+    path: /back/users/edit/{username}
+    controller: App\Controller\BackendController::manageUser
+podcasters_list:
+    path: /podcasterslist
+    controller: App\Controller\UserController::podcastersList

@@ -1,0 +1,19 @@
+{% extends 'back/back.base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+		  <a href="{{ url('backend_user_history', { 'username': user.username }) }}">History</a>
+            </div>
+            <div class="card-body">
+	      {{ form(form) }}
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+
+
+{% endblock %}

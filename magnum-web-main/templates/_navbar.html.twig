@@ -1,0 +1,90 @@
+<header class="header-area">
+  <!-- Navbar Area -->
+  <div class="oneMusic-main-menu">
+    <div class="classy-nav-container breakpoint-off">
+      <div class="container">
+	<!-- Menu -->
+	<nav class="classy-navbar justify-content-between" id="oneMusicNav">
+
+	  <!-- Nav brand -->
+	  <a href="{{ url('home') }}" class="nav-brand"><h1 class="logo">Magnum</h1></a>
+
+	  <!-- Navbar Toggler -->
+	  <div class="classy-navbar-toggler">
+	    <span class="navbarToggler">
+	      <span>
+	      </span>
+	      <span>
+	      </span>
+	      <span>
+	      </span>
+	    </span>
+	  </div>
+
+	  <!-- Menu -->
+	  <div class="classy-menu">
+
+	    <!-- Close Button -->
+	    <div class="classycloseIcon">
+	      <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+	    </div>
+
+	    <!-- Nav Start -->
+	    <div class="classynav">
+	      <ul>
+		<li><a href="{{ url('home') }}">Home</a></li>
+		<li><a href="{{ url('podcasters_list') }}">Podcasters</a></li>
+			  <li><a href="{{ url('app_event_index') }}">Events</a>
+
+
+
+			  </li>
+		<li><a href="{{ path('front') }}">Articles</a></li>
+		<li><a href="{{ path('app_podcasts_indexfront') }}">Podcasts</a></li>
+
+      {% if app.user %}
+     
+{% if 'ROLE_PODCASTERS' in app.user.roles %}
+    <li><a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podcaster Center
+	</a>
+  <ul class="dropdown">
+	<li><a class="nav-link" href="{{ path('app_offer') }}">My offers</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_new') }}">Create event</a></li>
+	<li><a class="nav-link" href="{{ path('reco_index') }}">My articles</a></li>
+    <li><a class="nav-link" href="{{ url('app_event_wallet') }}">My wallet</a></li>
+	</ul>
+  </li>
+ {% endif %}
+
+	    <li><a href="{{ url('user_profile') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  {{ app.user.username }}
+	</a>
+  <ul class="dropdown">
+    <li><a href="{{ path('user_profile', { username: app.user.username }) }}">Profile</a></li>
+    <li><a class="nav-link" href="{{ url('user_security') }}">Security</a></li>
+    <li><a class="nav-link" href="{{ url('user_history') }}">History</a></li>
+	 {% if app.user is instanceof('App\\Entity\\Administrators') %}
+		      <li><a href="{{ url('backend') }}">Backend</a></li>
+		    {% endif %}
+	<li><a class="nav-link" href="{{ path('show',{'userid': app.user.id}) }}">Issues</a></li>
+	  <li><a href="{{ path('app_logout') }}">Logout</a></li>
+	</ul>
+  </li>
+      {% else %}
+      <li class="nav-item">
+	<a class="nav-link" href="{{ path('app_login') }}">Login</a>
+      </li>
+      {% endif %}
+	      </ul>
+	    </div>
+	    <!-- Nav End -->
+	    
+	  </div>
+	</nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+

@@ -1,0 +1,8 @@
+<div class="card mx-auto mt-2" style="width: 26rem;">
+  <div class="card-body">
+    <h5 class="card-title font-weight-bold">{{ history.activity }}
+    <span class="h6 text-right text-muted"> @ {{ history.time|date('d-m-Y h:m:s') }} </span>
+    </h5>
+    <p class="card-text">{{ history.description }}</p>
+  </div>
+</div>
