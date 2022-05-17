@@ -1,22 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-8">
-      <h3>Create An Account</h3>
-      {% if errors|length > 0 %}
-      {% for err in errors %}
-      <div class="alert alert-danger text-left" role="alert">
-        <h4 class="alert-heading">Oops!</h4>
-        <hr>
-        {{ err.message }}
-      </div>
-      {% endfor %}
-      {% endif %}
+  
+  {{ include('_navbar.html.twig') }}
 
-      {{ form(form) }}
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+      <h2>Register</h2>
     </div>
-  </div>
-</div>
+  </section>
+
+  <section class="login-area section-padding-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+	  {% if errors|length > 0 %}
+	    {% for err in errors %}
+	      <div class="alert alert-danger text-left" role="alert">
+		<h4 class="alert-heading">Oops!</h4>
+		<hr>
+		{{ err.message }}
+	      </div>
+	    {% endfor %}
+	  {% endif %}
+	  
+          <div class="login-content">
+            <div class="login-form">
+		{{ form(form)}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 {% endblock %}

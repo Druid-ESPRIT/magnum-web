@@ -60,7 +60,7 @@ class Order
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $user;

@@ -20,8 +20,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
-
+use Symfony\Component\Security\Core\User\User;
 
 class OrderController extends AbstractController
 {
@@ -283,6 +282,5 @@ class OrderController extends AbstractController
       
         
     }
-
 
 }

@@ -21,12 +21,20 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/article")
  */
 class ArticleController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+       $this->security = $security;
+       
+    }
      /**
      * @Route("/deletecom/{id}",name="deletecom",methods={"DELETE"})
      */
@@ -97,11 +105,19 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="reco_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator,Request $request):Response
     {
+        /*$curr_user = $this->security->getUser(); 
+        $repository=$this->getDoctrine()->getRepository(Article::class);
+        $recos=$repository->findBy(['user' => $curr_user]);*/
         $recos = $this->getDoctrine()
             ->getRepository(Article::class)
             ->findAll();
+            
+            $recos = $paginator->paginate(
+                $recos,
+                $request->query->getInt('page',1),
+                3);
 
         return $this->render('article/index.html.twig', [
             'recos' => $recos,
@@ -122,26 +138,23 @@ class ArticleController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
+          
+              
+              // $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                 
          /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
             $file = $form->get('url')->getData();
             $fileName = md5(uniqid()) . '.' . $file->guessExtension();
             $file->move($this->getParameter('uploads_directory'), $fileName);
+            $imagefile = $form->get('content')->getData();
+            $imgfileName = md5(uniqid()).'.'.$imagefile->guessExtension();
+            $imagefile->move(
+                $this->getParameter('uploads_directory'),
+                $imgfileName
+            );
+            //$Article->setUrl($fileName);
+            $Article->setContent($imgfileName);
             $Article->setUrl($fileName);
-           
-            /*$file = $form->get('url')->getData();
-            $fileName = bin2hex(random_bytes(6)).'.'.$file->guessExtension();
-            $file->move ($this->getParameter('uploads_directory'),$fileName);
-            $Article->setUrl($fileName);
-            /*$file = $request->files->get('post')['url'];
-            $uploads_directory=$this->$this->getParameter('uploads_directory');
-            $filename =md5(uniqid(5)) . '.' . $file->guessExtension();
-            $file->move(
-                $uploads_directory,
-                $filename  
-            );*/
-           // echo "<pes>";
-            //var_dump($file);die;
            
             $entityManager->persist($Article);
             $entityManager->flush();
@@ -241,12 +254,12 @@ class ArticleController extends AbstractController
             'reco' => $reco,
         ]);
     }
-/**
+    /**
      * @Route("/articletest/{id}", name="reco_single", methods={"GET","POST"})
      */
     public function reco_single(ArticleRepository $recoRepository,$id,Request $request,UsersRepository $clientRepository,CommentaireRepository $commentRepository): Response
     {      
-
+        $curr_user = $this->security->getUser(); 
         $Recotype = $recoRepository->findBy(['id' => $id]);
         $comment = new Commentaire();
         $form = $this->createForm(CommentaireType::class,$comment);
@@ -256,7 +269,7 @@ class ArticleController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
             $val = $entityManager->getRepository(Article::class)->find($id);
-            $userr = $entityManager->getRepository(Users::class)->find(2);
+            $userr = $entityManager->getRepository(Users::class)->find($curr_user->getID());
 
             $comment->setSubmitDate(new \DateTime())
                 ->setArticleid($val)

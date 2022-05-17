@@ -1,40 +1,43 @@
-{% extends 'backend/base.html.twig' %}
-
-{% block title %}User History - Admin Dashboard{% endblock %}
+{% extends 'back/back.base.html.twig' %}
 
 {% block body %}
-  <div id="layoutSidenav_content">
-    <main>
-      <div class="container-fluid px-4">
-	<h1 class="mt-4">Dashboard</h1>
-	<ol class="breadcrumb mb-4">
-	  <li class="breadcrumb-item active">User History</li>
-	</ol>
-	<div class="card mb-4">
-	  <div class="card-body">
-	    <table id="datatable" class="table table-bordered">
-	      <thead>
-		<tr>
+  <div class="container-fluid">
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">{{app.user.username}}'s history</h1>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
 		  <th>Username</th>
 		  <th>Activity</th>
 		  <th>Description</th>
 		  <th>Time</th>
+              </tr>
+            </thead>
+
+	    <tbody>
+	      {% for hist in history %}
+		<tr>
+		  <td>{{ hist.user.username }}</td>
+		  <td>{{ hist.activity }}</td>
+		  <td>{{ hist.description }}</td>
+		  <td>{{ hist.time | date('Y-m-d H:i:s') }}</td>
 		</tr>
-	      </thead>
-	      <tbody>
-		{% for hist in history %}
-		  <tr>
-		    <td>{{ hist.user.username }}</td>
-		    <td>{{ hist.activity }}</td>
-		    <td>{{ hist.description }}</td>
-		    <td>{{ hist.time | date('Y-m-d H:i:s') }}</td>
-		  </tr>
-		{% endfor %}
-	      </tbody>
-	    </table>
-	  </div>
-	</div>
+	      {% endfor %}
+	    </tbody>
+            
+          </table>
+        </div>
       </div>
-    </main>
+    </div>
+
   </div>
+  <!-- /.container-fluid -->
 {% endblock %}

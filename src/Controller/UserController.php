@@ -7,12 +7,21 @@ use \DateTime;
 use App\Entity\Users;
 use App\Entity\History;
 use App\Entity\Administrators;
+use App\Entity\Podcasters;
 use App\Form\SecurityDetailsType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpClient\Response\ResponseStream;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 class UserController extends AbstractController
 {
@@ -35,11 +44,49 @@ class UserController extends AbstractController
         );
     }
 
+    public function visitUserProfileTab(string $username): Response {
+
+        $user = new Users();
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $user = $user_repo->findOneBy(['username' => $username]);
+
+        if (is_null($user)) {
+            $this->addFlash(
+                'danger',
+                'The requested user does not exist.'
+            );
+            
+            return $this->render('user/tabs/profile/index.html.twig', [ 'user' => null ]);
+        }
+        
+        if (is_null($user->getAvatar())) {
+            $user->setAvatar('placeholder-avatar.svg');
+        }
+        
+        return $this->render('user/tabs/profile/index.html.twig',
+               [ 'user' => $user ]
+        );
+    }
+
     public function getRandomSuccessString(): string {
         $success_messages = array('Woohoo! ', 'Awesome! ', 'Nice! ');
         $index = array_rand($success_messages, 1);
         $msg = $success_messages[$index];
         return $msg;
+    }
+
+    /**
+     * @Route("/api/users/{username}", name="APIGetUser")
+     */
+    public function APIGetUser(Request $request, string $username) {
+        $man = $this->getDoctrine()->getManager();
+        $user = $man->getRepository(Users::class)->findOneBy(['username' => $username]);
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $normalized = $serializer->normalize($user); 
+        return new JsonResponse($normalized);
     }
 
     public function getSecurityTab(Request $request): Response {
@@ -94,6 +141,28 @@ class UserController extends AbstractController
             'activity'  => 'Security',
             'description' => 'You reset your password.',
         ]);
+    }
+
+    public function podcastersList(){
+        $man = $this->getDoctrine()->getManager();
+        $user_repo = $man->getRepository(Users::class);
+        $users=$user_repo->findAll();
+        
+        $key =[];
+        foreach ($users as $user)
+        {   
+           
+            if(in_array("ROLE_PODCASTERS", $user->getRoles())){
+                array_push($key,$user);
+            }
+            
+        }
+
+
+        return $this->render('user/podcasterslist.html.twig',
+        [ 'users' => $key ] 
+     );
+
     }
 }
 

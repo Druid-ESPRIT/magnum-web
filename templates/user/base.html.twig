@@ -1,21 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{app.user.username}}'s profile {% endblock %}
+{% block title %}{{app.user.username}}'s profile{% endblock %}
 
 {% block body %}
 
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link" aria-current="page" href="{{ url('user_profile') }}">Profile</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url('user_security') }}">Security</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url('user_history') }}">History</a>
-  </li>
-</ul>
+  {{ include('_navbar.html.twig') }}
 
-{% block content %} {% endblock %}
+  {% block breadcrumb %}
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb3.jpg);">
+    <div class="bradcumbContent">
+      <p>{% block tab_description %} {% endblock %}</p>
+      <h2>{% block tab_title %} Profile {% endblock %}</h2>
+    </div>
+  </section>
+  {% endblock %}
+
+  {% block content %} {% endblock %}
 
 {% endblock %}

@@ -21,10 +21,10 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-event-area mb-30">
                         <div class="event-thumbnail">
-                            <img src="img/ofs-img/{{ofs.image}}" alt="">
+                            <img src="{{ asset('img/ofs-img/'~ofs.Image) }}" alt="">
                         </div>
                         <div class="event-text">
-                            <h4>Offer ID : {{ofs.id}}</h4>
+                        
                             <div class="event-meta-data">
                                 <a href="#" class="event-place">Price</a>
                                 <a href="#" class="event-date">${{ofs.price}}</a>

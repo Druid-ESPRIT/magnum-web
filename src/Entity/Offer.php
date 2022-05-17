@@ -7,6 +7,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
 /**
  * Offer
  *
@@ -53,6 +54,7 @@ class Offer
      *
      * @ORM\Column(name="image", type="string", length=120, nullable=false)
      * @Groups("post:read")
+     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $image;
 
@@ -63,7 +65,6 @@ class Offer
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
-     * @Assert\NotBlank(message="Please attach an image !")
      */
     private $user;
 

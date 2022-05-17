@@ -10,6 +10,7 @@ use App\Entity\Users;
 use App\Repository\OfferRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\OfferType;
+use Doctrine\ORM\Query\Expr\Orx;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,7 +30,7 @@ class OfferController extends AbstractController
     {
         $repository=$this->getDoctrine()->getRepository(Offer::class);
         $curr_user = $this->security->getUser(); 
-        $offers=$repository->findBy(['user' => $curr_user->getID()]);
+        $offers=$repository->findBy(['user' => $curr_user]);
         $pagedOffers = $paginator->paginate(
             $offers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
@@ -40,12 +41,14 @@ class OfferController extends AbstractController
         );
     }
       /**
-     * @Route("/offerlist", name="offerlist")
+     * @Route("/offerlist/{id}", name="offerlist")
      */
-    public function offerList(Request $request, PaginatorInterface $paginator): Response
+    public function offerList(Request $request, PaginatorInterface $paginator,int $id): Response
     {
+        $repository=$this->getDoctrine()->getRepository(Users::class);
+        $user=$repository->find($id);
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findAll();
+        $offers=$repository->findBy(['user'=> $user]);
         $pagedOffers = $paginator->paginate(
             $offers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page

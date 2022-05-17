@@ -31,14 +31,14 @@ class Commentaire
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="submitDate", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="submitDate", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
     private $submitdate = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var \Article
+     * @var Article
      *
-     * @ORM\ManyToOne(targetEntity="Article")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Article")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="articleid", referencedColumnName="id")
      * })
@@ -46,11 +46,11 @@ class Commentaire
     private $articleid;
 
     /**
-     * @var \Users
+     * @var Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
      * })
      */
     private $userid;

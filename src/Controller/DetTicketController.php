@@ -28,7 +28,7 @@ class DetTicketController extends AbstractController
     }
 
     /**
-     * @Route("/det/ticket/{tt}/",name="ticket")
+     * @Route("/det/ticket/{tt}",name="ticket")
      */
     public function Det(Request $request,$tt): Response
     {    

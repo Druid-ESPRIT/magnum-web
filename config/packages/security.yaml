@@ -30,7 +30,7 @@ security:
             algorithm: bcrypt
 
     access_control:
-        - { path: ^/profile, roles: [ ROLE_USERS, ROLE_ADMINS ] }
-        - { path: ^/history, roles: [ ROLE_USERS, ROLE_ADMINS ] }
-        - { path: ^/security, roles: [ ROLE_USERS, ROLE_ADMINS ] }
-        - { path: ^/backend, roles: ROLE_ADMINS }
+        - { path: ^/profile, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/history, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/security, roles: [ ROLE_USERS, ROLE_ADMINS, ROLE_PODCASTERS] }
+        - { path: ^/back, roles: [ROLE_ADMINS] }

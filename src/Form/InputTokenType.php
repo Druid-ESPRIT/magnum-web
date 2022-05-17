@@ -19,8 +19,8 @@ class InputTokenType extends AbstractType
         $builder
             ->add("token", TextType::class, [
                 "required" => true,
-                "label" => false,
-                "attr" => ["class" => "form-control", "placeholder" => "Token"],
+                "label" => "Have a look at your email, we sent you a token!",
+                "attr" => ["class" => "form-control", "placeholder" => "My token"],
             ])
             ->add("send", SubmitType::class, [
                 "attr" => ["class" => "btn btn-primary"],

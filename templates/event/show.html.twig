@@ -83,7 +83,7 @@
                     </div>
                 </div>
 
-                {% if app.user.roles[0] == "ROLE_PODCASTERS" and app.user == event.user %}
+                {% if app.user.roles[0] == "ROLE_PODCASTERS" and app.user == event.user%}
                 <div class="col-12 col-lg-4">
                     <a class="btn btn-info" href="{{ path('app_event_edit', {'id': event.id}) }}">Update Event</a>
                     <a class="btn btn-danger" href="{{ path('app_event_delete', {'id': event.id}) }}">Cancel Event</a>

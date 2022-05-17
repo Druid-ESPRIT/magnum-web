@@ -1,55 +1,83 @@
-{% extends 'backend/base.html.twig' %}
-
-{% block title %}User Information - Admin Dashboard{% endblock %}
+{% extends 'back/back.base.html.twig' %}
 
 {% block body %}
-  <div id="layoutSidenav_content">
-    <main>
-      <div class="container-fluid px-4">
-	<h1 class="mt-4">Dashboard</h1>
-	<ol class="breadcrumb mb-4">
-	  <li class="breadcrumb-item active">User Information</li>
-	</ol>
-	<div class="card mb-4">
-	  <div class="card-body">
-	    <table id="datatable" class="table table-bordered">
-	      <thead>
-		<tr>
-		  <th>ID</th>
-		  <th>Username</th>
-		  <th>First Name</th>
-		  <th>Last Name</th>
-		  <th>Email</th>
-		  <th>Status</th>
-		  <th>Actions</th>
-		</tr>
-	      </thead>
-	      <tbody>
-		{% for user in users %}
-		  <tr>
-		    <td>{{ user.id }}</td>
-		    <td>{{ user.username }}</td>
-		    {% if user is instanceof('App\\Entity\\Administrators') %}
-		      <td>
-			{{ user.firstname }}
-		      </td>
-		      <td>
-			{{ user.lastname }}
-		      </td>
-		      {% else %}
-		      <td></td>
-		      <td></td>
-		    {% endif %}
-		    <td>{{ user.email }}</td>
-		    <td>{{ user.status }}</td>
-		    <td><a href="{{ url('backend_user_manage', { 'username': user.username }) }}">Manage</a></td>
-		  </tr>
-		{% endfor %}
-	      </tbody>
-	    </table>
-	  </div>
-	</div>
-      </div>
-    </main>
-  </div>
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                
+                  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">User Information</h1>
+                  </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+			  <th>ID</th>
+			  <th>Role</th>
+			  <th>Username</th>
+			  <th>First Name</th>
+			  <th>Last Name</th>
+			  <th>Email</th>
+			  <th>Status</th>
+			  <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody> 
+                	  {% for user in users %}
+			    {% set isAdministrator = user is instanceof('App\\Entity\\Administrators') %}
+			    {% set isPodcaster = user is instanceof('App\\Entity\\Podcasters') %}
+			    
+			    <tr>
+			      <td>
+				{% if isAdministrator %}
+				  Administrator
+				{% elseif isPodcaster %}
+                                  Podcaster
+				{% else %}
+				  User
+				{% endif %}
+			      </td>
+			      <td>{{ user.id }}</td>
+			      <td>{{ user.username }}</td>
+
+			      <td>
+				{% if isAdministrator or isPodcaster %}
+				  {% if user.firstname is empty %}
+				     N/A
+				  {% else %}
+				    {{ user.firstname }}
+				  {% endif %}
+				{% endif %}
+			      </td>
+
+			      <td>
+				{% if isAdministrator or isPodcaster %}
+				  {% if user.lastname is empty %}
+				     N/A
+				  {% else %}
+				    {{ user.lastname }}
+				  {% endif %}
+				{% endif %}
+			      </td>
+			      
+			      <td>{{ user.email }}</td>
+			      <td>{{ user.status }}</td>
+			      <td><a href="{{ url('backend_user_manage', { 'username': user.username }) }}">Manage</a></td>
+			    </tr>
+			  {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+
+
 {% endblock %}

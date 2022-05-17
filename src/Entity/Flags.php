@@ -47,7 +47,7 @@ class Flags
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="flaggedID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="flaggedID", referencedColumnName="id")
      * })
      */
     private $flaggedid;
@@ -57,7 +57,7 @@ class Flags
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="flaggerID", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="flaggerID", referencedColumnName="id")
      * })
      */
     private $flaggerid;
