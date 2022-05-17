@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Podcasters;
+use App\Entity\Podcaster;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Podcasters|null find($id, $lockMode = null, $lockVersion = null)
- * @method Podcasters|null findOneBy(array $criteria, array $orderBy = null)
- * @method Podcasters[]    findAll()
- * @method Podcasters[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Podcaster|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Podcaster|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Podcaster[]    findAll()
+ * @method Podcaster[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PodcasterRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Podcasters::class);
+        parent::__construct($registry, Podcaster::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Podcasters $entity, bool $flush = true): void
+    public function add(Podcaster $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class PodcasterRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Podcasters $entity, bool $flush = true): void
+    public function remove(Podcaster $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {

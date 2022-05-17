@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Entity\Review;
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\EventType;
 use App\Form\ReviewType;
 use App\Repository\EventRepository;
 use App\Repository\ReviewRepository;
+use App\Repository\UserRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -33,8 +34,10 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\CircularReferenceException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Security\Core\Security;
@@ -68,11 +71,12 @@ class EventController extends AbstractController
     /**
      * @Route("/wallet",name="app_event_wallet")
      * @param EventRepository $eventRepository
+     * @param UsersRepository $userRepository
      * @return Response
      */
     public function walletIndex(EventRepository $eventRepository, UsersRepository $userRepository)
     {
-        $curr_user = $this->security->getUser(); 
+        $curr_user = $this->security->getUser();
         $events = $eventRepository->findBy(['User'=>$curr_user]);
         $total = 0;
         $totalP =0;
@@ -212,6 +216,7 @@ class EventController extends AbstractController
     }
 
 
+
     /**
      * @Route("/new", name="app_event_new", methods={"GET", "POST"})
      * @param Request $request
@@ -344,6 +349,8 @@ class EventController extends AbstractController
 
         $participants = $event->getParticipants();
 
+        $participe = $participants->contains($user);
+
         /* Event is Full */
         $isFull = $event->getMaxParticipants() == $participants->count();
         /* ---------------- */
@@ -362,6 +369,7 @@ class EventController extends AbstractController
                 return $this->render('event/show.html.twig', [
                     'errors'=> $errorsString,
                     'isFull'=> $isFull,
+                    'participe'=>!$participe,
                     'event' => $event,
                     'form'=>$form->createView(),
                     'reviews'=>$reviews
@@ -371,6 +379,7 @@ class EventController extends AbstractController
                 $reviewRepository->add($review);
                 return $this->render('event/show.html.twig', [
                     'errors'=> '',
+                    'participe'=>!$participe,
                     'event' => $event,
                     'isFull'=> $isFull,
                     'form'=>$form->createView(),

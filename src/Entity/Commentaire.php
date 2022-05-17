@@ -36,9 +36,9 @@ class Commentaire
     private $submitdate = 'CURRENT_TIMESTAMP';
 
     /**
-     * @var Article
+     * @var \Article
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article")
+     * @ORM\ManyToOne(targetEntity="Article")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="articleid", referencedColumnName="id")
      * })
@@ -46,7 +46,7 @@ class Commentaire
     private $articleid;
 
     /**
-     * @var Users
+     * @var \Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({

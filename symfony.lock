@@ -5,6 +5,18 @@
     "cmen/google-charts-bundle": {
         "version": "5.0.0"
     },
+    "creof/doctrine2-spatial": {
+        "version": "1.2.0"
+    },
+    "creof/geo-parser": {
+        "version": "2.2.1"
+    },
+    "creof/wkb-parser": {
+        "version": "v2.4"
+    },
+    "creof/wkt-parser": {
+        "version": "2.2.0"
+    },
     "dasprid/enum": {
         "version": "1.0.3"
     },
@@ -196,13 +208,13 @@
         ]
     },
     "psr/cache": {
-        "version": "2.0.0"
+        "version": "1.0.1"
     },
     "psr/container": {
         "version": "1.1.2"
     },
     "psr/link": {
-        "version": "1.1.1"
+        "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.4"
@@ -273,6 +285,9 @@
     "stripe/stripe-php": {
         "version": "v7.128.0"
     },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.3.0"
+    },
     "symfony/asset": {
         "version": "v4.4.40"
     },
@@ -323,7 +338,7 @@
         "version": "v4.4.41"
     },
     "symfony/deprecation-contracts": {
-        "version": "v3.0.1"
+        "version": "v2.5.1"
     },
     "symfony/doctrine-bridge": {
         "version": "v4.4.41"
@@ -564,6 +579,20 @@
     "symfony/string": {
         "version": "v5.3.10"
     },
+    "symfony/swiftmailer-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.5",
+            "ref": "f0b2fccdca2dfd97dc2fd5ad216d5e27c4f895ac"
+        },
+        "files": [
+            "./config/packages/dev/swiftmailer.yaml",
+            "./config/packages/swiftmailer.yaml",
+            "./config/packages/test/swiftmailer.yaml"
+        ]
+    },
     "symfony/translation": {
         "version": "4.4",
         "recipe": {
@@ -652,13 +681,13 @@
         "version": "2.2.4"
     },
     "twig/cssinliner-extra": {
-        "version": "v3.3.5"
+        "version": "v3.4.0"
     },
     "twig/extra-bundle": {
-        "version": "v3.3.8"
+        "version": "v3.4.0"
     },
     "twig/twig": {
-        "version": "v3.3.10"
+        "version": "v3.4.1"
     },
     "webmozart/assert": {
         "version": "1.10.0"

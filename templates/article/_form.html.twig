@@ -10,7 +10,7 @@
     <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset('img/bg-img/breadcumb3.jpg') }});">
         <div class="bradcumbContent">
             <p>See what’s new</p>
-            <h2>Crete Article</h2>
+            <h2>Create Article</h2>
         </div>
     </section>
 
@@ -22,7 +22,8 @@
 {{ form_start(form) }}
 <section class="login-area section-padding-100">
 
-<div>
+    <div class="container">
+    <div class="card-body">
     <div class="form-group">
         {{ form_label(form.title, "title ") }}
 
@@ -54,6 +55,7 @@
         <button class="btn btn-success">{{ button_label|default('Save') }}</button>
     </div>
 </div>
+    </div>
 <section/>
 {{ form_end(form) }}
 

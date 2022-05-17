@@ -22,34 +22,34 @@ use Symfony\Component\Validator\Constraints\Json;
 
 class ArticleApiController extends AbstractController
 {
-   
-    
-        /**
-         * @Route("/AfficherArticlesMobile", name="AfficherArticlessMobile")
-         */
-        public function AfficherPodcastsMobile(Request $request)
-        {
-            $em = $this->getDoctrine()->getManager();
-            $commandes = $em->getRepository(Article::class)->findAll();
-    
-            return $this->json($commandes,200,[],['groups'=>'post:read']);
-    
-            //http://127.0.0.1:8000/AfficherArticlesMobile
-    
-        }
-        /**
-         * @Route("/SupprimerArticlesMobile", name="SupprimerArticlesMobile")
-         */
-        public function SupprimerPodcastsMobile(Request $request,ArticleRepository $articleRepository) {
-            $id = $request->get("id");
 
-            $article = $articleRepository->find($id);
 
-           $articleRepository->remove($article);
-    
-                return new JsonResponse("Podcasts Supprime!", 200);
+    /**
+     * @Route("/AfficherArticlesMobile", name="AfficherArticlessMobile")
+     */
+    public function AfficherPodcastsMobile(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commandes = $em->getRepository(Article::class)->findAll();
 
-        }
+        return $this->json($commandes,200,[],['groups'=>'post:read']);
+
+        //http://127.0.0.1:8000/AfficherArticlesMobile
+
+    }
+    /**
+     * @Route("/SupprimerArticlesMobile", name="SupprimerArticlesMobile")
+     */
+    public function SupprimerPodcastsMobile(Request $request,ArticleRepository $articleRepository) {
+        $id = $request->get("id");
+
+        $article = $articleRepository->find($id);
+
+        $articleRepository->remove($article);
+
+        return new JsonResponse("Podcasts Supprime!", 200);
+
+    }
 
     /**
      * @Route("/AjouterArticlesMobile", name="AjouterArticlesMobile")
@@ -57,45 +57,45 @@ class ArticleApiController extends AbstractController
      * @param PodcasterRepository $podcasterRepository
      * @return JsonResponse|Response
      */
-        public function AjouterArticleMobile(Request $request,UsersRepository $usersRepository)
-        {
-            $article = new Article();
-            $article->setTitle($request->get("title"));
-            $article->setUrl($request->get("url"));
-            $article->setContent($request->get("content"));
-            $article->setAuthorid($usersRepository->find(1));
+    public function AjouterArticleMobile(Request $request,UsersRepository $usersRepository)
+    {
+        $article = new Article();
+        $article->setTitle($request->get("title"));
+        $article->setUrl($request->get("url"));
+        $article->setContent($request->get("content"));
+        $article->setAuthorid($usersRepository->find(1));
 
-            try {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($article);
-                $em->flush();
-    
-                return new JsonResponse("Article Ajoute!", 200);
-            }
-            catch (\Exception $ex)
-            {
-                return new Response("Execption: ".$ex->getMessage());
-            }
-    
-            //http://127.0.0.1:8000/AjouterArticlesMobile?Title=json&Description=json&Rating=5&Views=0&File=json&Image=json&idCategorie=8
-    
-    
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            return new JsonResponse("Article Ajoute!", 200);
         }
+        catch (\Exception $ex)
+        {
+            return new Response("Execption: ".$ex->getMessage());
+        }
+
+        //http://127.0.0.1:8000/AjouterArticlesMobile?Title=json&Description=json&Rating=5&Views=0&File=json&Image=json&idCategorie=8
+
+
+    }
 
 
     /**
      * @Route("/AfficherCommentairesMobile",name="AfficherCommentairesMobile")
      */
-        public function AfficherCommentairesMobile(Request $request,CommentaireRepository $commentaireRepository)
-        {
-            $comments = $commentaireRepository->findBy(["articleid"=>$request->get("id")]);
+    public function AfficherCommentairesMobile(Request $request,CommentaireRepository $commentaireRepository)
+    {
+        $comments = $commentaireRepository->findBy(["articleid"=>$request->get("id")]);
 
-            //$comments = $commentaireRepository->findBy(["articleid"=>$request->get("id")]);
-            return $this->json($comments,200,[]);
+        //$comments = $commentaireRepository->findBy(["articleid"=>$request->get("id")]);
+        return $this->json($comments,200,[]);
 
-            //http://127.0.0.1:8000/AfficherCommentairesMobile?id=
+        //http://127.0.0.1:8000/AfficherCommentairesMobile?id=
 
-        }
+    }
 
 
     /**
@@ -146,9 +146,9 @@ class ArticleApiController extends AbstractController
 
 
     }
-        
-    
-    
-        
-    }
+
+
+
+
+}
 

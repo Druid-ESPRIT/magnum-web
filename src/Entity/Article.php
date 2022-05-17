@@ -24,8 +24,8 @@ class Article
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("post:read")
-   
-     
+
+
      * @return AnnotationException
      */
     private $id;
@@ -35,8 +35,8 @@ class Article
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
      * @Assert\NotBlank(message="please write the title")
      * @Groups("post:read")
-     
-    
+
+
      */
     private $title;
 
@@ -46,7 +46,7 @@ class Article
      * @Assert\NotBlank(message="please upload pdf")
      * @Assert\File(mimeTypes={"application/pdf"})
      * @Groups("post:read")
-     
+
      */
     private $url;
 
@@ -55,7 +55,7 @@ class Article
      *
      * @ORM\Column(name="content", type="string", length=255, nullable=false)
      * @Groups("post:read")
-  
+
      */
     private $content;
 
@@ -65,7 +65,7 @@ class Article
      * @ORM\ManyToOne(targetEntity="App\Entity\Users")
      * @ORM\JoinColumns({
      * @ORM\JoinColumn(name="authorID", referencedColumnName="id")
-  
+
      * })
      */
     private $authorid;

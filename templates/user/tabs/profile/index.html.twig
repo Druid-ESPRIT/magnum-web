@@ -65,14 +65,24 @@
 		 <label for="rolesInput">Roles</label>
                 <input type="text" class="form-control" id="rolesInput" value="{{ role|split('\\')|last|trim('s','right')  }}" disabled>
                </div>
-	       {% if user is instanceof ("App\\Entity\\Podcasters") %}
-		 <a class="btn btn-primary" href="{{path('offerlist',{ 'id':user.id})}}" role="button">See my offers!</a>
+        {% if isViewing %}
+
+	           {% if user is instanceof ("App\\Entity\\Podcasters") %}
+		            <a class="btn btn-primary" href="{{path('offerlist',{ 'id':user.id})}}" role="button">See my offers!</a>
+              {% endif %}
+                {% else %}
+     <a class="btn btn-primary" href="{{path('mysubscriptions')}}" role="button">My subscriptions</a>
+     <a class="btn btn-primary" href="{{path('myorders',{ 'id':user.id})}}" role="button">My orders</a>
+      
 	       {% endif %}
             </div>
           </div>
          {% endif %}
+         
 	</div>
+  
       </div>
+     
     </div>
   </section>
 {% endblock %}

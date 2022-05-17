@@ -254,7 +254,7 @@ class ArticleController extends AbstractController
             'reco' => $reco,
         ]);
     }
-    /**
+/**
      * @Route("/articletest/{id}", name="reco_single", methods={"GET","POST"})
      */
     public function reco_single(ArticleRepository $recoRepository,$id,Request $request,UsersRepository $clientRepository,CommentaireRepository $commentRepository): Response
