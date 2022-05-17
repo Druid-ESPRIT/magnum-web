@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{ include('_navbar.html.twig') }}
+  <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
+        <div class="bradcumbContent">
+            <p>My subscriptions list</p>
+        </div>
+    </section>
+ 
+ <!-- ##### Events Area Start ##### -->
+    <section class="events-area section-padding-100">
+       <!-- ##### Events Area Start ##### -->
+     <div class="one-music-songs-area mb-70">
+        <div class="container">
+            <div class="row">
+
+                <!-- Single Song Area -->
+                {% for sub in subs %}
+                <div class="col-12">
+                    <div class="single-song-area mb-30 d-flex flex-wrap align-items-end">
+                        <div class="song-thumbnail">
+                            <img src="{{ asset('img/ofs-img/'~sub.order.offer.image) }}" alt="">
+                        </div>
+                        <div class="song-play-area">
+                            <div class="song-name">
+                                <p> Subscription for {{sub.order.plan}} month(s) to "{{sub.order.offer.user.username}}"</p>
+                                <p>Start date: {{sub.startdate|date('d/m/y') }} || Expiration date : {{sub.expiredate|date('d/m/y') }} </p>
+                                <p>Status : {{sub.status}} </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                 {%endfor%}
+
+            
+
+            </div>
+        </div>
+    </div>
+    <!-- ##### Song Area End ##### -->
+    </section>
+    <!-- ##### Events Area End ##### -->
+
+
+
+{% endblock %}
