@@ -45,7 +45,6 @@ class UserController extends AbstractController
     }
 
     public function visitUserProfileTab(string $username): Response {
-
         $user = new Users();
         $man = $this->getDoctrine()->getManager();
         $user_repo = $man->getRepository(Users::class);
@@ -131,7 +130,7 @@ class UserController extends AbstractController
             throw new CurrentPasswordException('The current password field does not match your actual password.');
         }
 
-        $hashed_pw = password_hash($data->getPassword(), PASSWORD_BCRYPT);
+        $hashed_pw = password_hash($user_form->get('newPassword')->getData(), PASSWORD_BCRYPT);
         $user->setPassword($hashed_pw);
         $man->persist($user);
         $man->flush();

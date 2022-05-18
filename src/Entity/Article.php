@@ -21,23 +21,19 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     
-     *  @return AnnotationException
+     * @return AnnotationException
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
-     
-    
      */
     private $title;
 
     /**
      * @var string
      * @ORM\Column(name="url", type="text", length=0, nullable=false)
-     
      */
     private $url;
 
@@ -45,7 +41,6 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="string", length=255, nullable=false)
-  
      */
     private $content;
 
@@ -54,8 +49,7 @@ class Article
      *
      * @ORM\ManyToOne(targetEntity="Podcasters")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="authorID", referencedColumnName="id")
-  
+     * @ORM\JoinColumn(name="authorID", referencedColumnName="id")  
      * })
      */
     private $authorid;

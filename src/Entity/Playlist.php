@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * Playlist
@@ -38,9 +39,9 @@ class Playlist
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="dateplaylist", type="datetime", nullable=true, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="dateplaylist", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $dateplaylist = 'current_timestamp()';
+    private $dateplaylist = 'CURRENT_TIMESTAMP';
 
     public function getIdplaylist(): ?int
     {
@@ -55,7 +56,6 @@ class Playlist
     public function setUserid(int $userid): self
     {
         $this->userid = $userid;
-
         return $this;
     }
 
@@ -67,21 +67,17 @@ class Playlist
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
-    public function getDateplaylist(): ?\DateTimeInterface
+    public function getDateplaylist(): ?DateTime
     {
         return $this->dateplaylist;
     }
 
-    public function setDateplaylist(?\DateTimeInterface $dateplaylist): self
+    public function setDateplaylist(?DateTime $dateplaylist): self
     {
         $this->dateplaylist = $dateplaylist;
-
         return $this;
     }
-
-
 }

@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @DiscriminatorMap({
- *      "users" = "App\Entity\Users",
- *      "administrators" = "App\Entity\Administrators",
- *      "podcasters" = "App\Entity\Podcasters"
+ *      "users"="App\Entity\Users",
+ *      "administrators"="App\Entity\Administrators",
+ *      "podcasters"="App\Entity\Podcasters"
  * })
  * @UniqueEntity("email", "username")
  */
@@ -31,7 +31,7 @@ class Users implements UserInterface, \Serializable
      * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -71,19 +71,6 @@ class Users implements UserInterface, \Serializable
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="User", orphanRemoval=true)
-     */
-    private $Events;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="user")
-     */
-    private $Reviews;
-
-    /* Used in security details form */
-    private $newPassword;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -104,12 +91,6 @@ class Users implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function getNewPassword(): ?string
-    {
-        return $this->newPassword;
-
-    }
-
     public function getAvatar(): ?string
     {
         return $this->avatar;
@@ -119,6 +100,7 @@ class Users implements UserInterface, \Serializable
     {
         return $this->status;
     }
+    
     public function setId(int $id): self
     {
         $this->id = $id;
@@ -140,12 +122,6 @@ class Users implements UserInterface, \Serializable
     public function setPassword(string $pw): self
     {
         $this->password = $pw;
-        return $this;
-    }
-
-    public function setNewPassword(string $pw): self
-    {
-        $this->newPassword = $pw;
         return $this;
     }
 

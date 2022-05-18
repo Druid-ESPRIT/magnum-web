@@ -25,6 +25,7 @@ class SecurityDetailsType extends AbstractType
                 "attr" => ["class" => "form-control"],
             ])
             ->add('newPassword', RepeatedType::class, [
+                'mapped' => false,
                 'type' => PasswordType::class,
                 'options' => ['attr' => ['class' => 'form-control']],
                 'required' => true,

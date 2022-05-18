@@ -79,7 +79,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         if ($user->getStatus() == 'Banned') {
-            throw new CustomUserMessageAuthenticationException('This user has been banned');
+            throw new CustomUserMessageAuthenticationException('This user has been banned.');
         }
 
         return $user;

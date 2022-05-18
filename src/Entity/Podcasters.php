@@ -16,16 +16,16 @@ class Podcasters extends Users
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=40, nullable=false, options={"comment"="This attribute can be used as the name of the podcast and not necessarily that of the account holder."})
+     * @ORM\Column(name="firstName", type="string", length=40, nullable=true, options={"comment"="This attribute can be used as the name of the podcast and not necessarily that of the account holder."})
      */
-    private $firstname;
+    private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="lastName", type="string", length=40, nullable=false, options={"comment"="This attribute can be used as the name of the podcast and not necessarily that of the account holder."})
+     * @ORM\Column(name="lastName", type="string", length=40, nullable=true, options={"comment"="This attribute can be used as the name of the podcast and not necessarily that of the account holder."})
      */
-    private $lastname;
+    private $lastName;
 
     /**
      * @var string|null
@@ -34,36 +34,19 @@ class Podcasters extends Users
      */
     private $biography;
 
-    /**
-     * @var \Users
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Users")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ID", referencedColumnName="ID")
-     * })
-     */
-    private $id;
-
     public function getRoles()
     {
         return array('ROLE_PODCASTERS');
     }
 
-    public function getId(): ?int
-    {
-        return parent::getID();
-    }
-
     public function getLastName(): ?string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
     public function getFirstName(): ?string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     public function getBiography(): ?string
@@ -71,27 +54,21 @@ class Podcasters extends Users
         return $this->biography;
     }
 
-    public function setId(int $id): self
+    public function setFirstName(string $firstName): self
     {
-        $this->id = id;
+        $this->firstName = $firstName;
         return $this;
     }
 
-    public function setFirstName(string $firstname): self
+    public function setLastName(string $lastName): self
     {
-        $this->firstname = firstname;
-        return $this;
-    }
-
-    public function setLastName(string $lastname): self
-    {
-        $this->lastname = lastname;
+        $this->lastName = $lastName;
         return $this;
     }
 
     public function setBiography(string $biography): self
     {
-        $this->biography = biography;
+        $this->biography = $biography;
         return $this;
     }
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * Commentaire
@@ -31,9 +32,9 @@ class Commentaire
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="submitDate", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="submitdate", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $submitdate = 'CURRENT_TIMESTAMP';
+    private $submitdate = "CURRENT_TIMESTAMP";
 
     /**
      * @var \Article
@@ -50,7 +51,7 @@ class Commentaire
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userid", referencedColumnName="ID")
+     *   @ORM\JoinColumn(name="userid", referencedColumnName="id")
      * })
      */
     private $userid;
@@ -68,16 +69,15 @@ class Commentaire
     public function setMessage(string $message): self
     {
         $this->message = $message;
-
         return $this;
     }
 
-    public function getSubmitdate(): ?\DateTimeInterface
+    public function getSubmitdate(): ?DateTime
     {
         return $this->submitdate;
     }
 
-    public function setSubmitdate(\DateTimeInterface $submitdate): self
+    public function setSubmitdate(DateTime $submitdate): self
     {
         $this->submitdate = $submitdate;
 

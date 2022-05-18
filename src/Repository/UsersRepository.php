@@ -38,19 +38,12 @@ class UsersRepository
         return $query->getResult();
     }
 
-    public function loadUserByUsername($usernameOrEmail): ?User
+    public function loadUserByUsername($username): ?User
     {
         $entityManager = $this->getEntityManager();
 
-        return $entityManager->createQuery(
-            'SELECT u
-                FROM App\Entity\Users u
-                WHERE u.username = :query
-                OR u.email = :query'
-        )
-                             ->setParameter('query', $usernameOrEmail)
-                             ->getOneOrNullResult();
+        $query = $entityManager->createQuery('SELECT u FROM App\Entity\Users u WHERE u.username = :query');
+        $query->setParameter('query', $username);
+        return $query->getOneOrNullResult();
     }
-
-
 }

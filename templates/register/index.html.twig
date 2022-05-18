@@ -27,12 +27,53 @@
 	  
           <div class="login-content">
             <div class="login-form">
-		{{ form(form)}}
+	      {{ form_start(form)}}
+
+	        {{ form_row(form.role)}}
+
+		<hr>
+		
+		{{ form_row(form.email) }}
+		{{ form_row(form.username) }}
+		{{ form_row(form.password) }}
+
+		<div id="podcaster_fields">
+		  {{ form_label(form.firstName) }}
+		  {{ form_widget(form.firstName) }}
+		  {{ form_label(form.lastName) }}
+		  {{ form_widget(form.lastName) }}
+		  {{ form_label(form.biography) }}
+		  {{ form_widget(form.biography) }}
+	        </div>
+
+		<hr>
+
+		{{ form_label(form.avatar)}}
+		{{ form_widget(form.avatar) }}
+		
+	      {{ form_end(form)}}
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <script>
+   var checkbox = document.getElementById("register_role");
+   var podcasterFields = document.getElementById("podcaster_fields");
+
+   window.addEventListener('load', function() {
+     podcasterFields.style.display = 'none';
+   })
+   
+   checkbox.addEventListener('change', function() {
+     if (this.checked) {
+       podcasterFields.style.display = 'block';
+     } else {
+       podcasterFields.style.display = 'none';
+     }
+   });
+  </script>
 
 {% endblock %}
