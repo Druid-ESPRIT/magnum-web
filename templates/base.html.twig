@@ -12,6 +12,8 @@
 
     {% block stylesheets %}
        <link rel="stylesheet" href="{{ asset('style.css') }}">
+        <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+
     {% endblock %}
   </head>
 
@@ -24,6 +26,14 @@
        <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
        <script src="{{ asset('js/plugins/plugins.js') }}"></script>
        <script src="{{ asset('js/active.js') }}"></script>
+        <script type="application/javascript">
+            $('.custom-file-input').on('change',function(){
+                var fileName = $(this).val().replace(/.*(\/|\\)/, '');
+                $(this).next('label').addClass("selected").html(fileName);
+            });
+        </script>
+
+
     {% endblock %}
   </body>
 

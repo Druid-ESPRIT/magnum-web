@@ -40,6 +40,17 @@ class OrderController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/myorders", name="myorders")
+     */
+    public function myOrdersList(): Response
+    {
+        $curr_user = $this->security->getUser();  
+        $repository=$this->getDoctrine()->getRepository(Order::class);
+        $orders=$repository->findBy(['user' => $curr_user]);
+        return $this->render('order/myorders.html.twig', ["orders"=>$orders]);
+    }
+
         /**
      * @Route("/chooseplan/{id}", name="chooseplan")
      */
@@ -62,7 +73,7 @@ class OrderController extends AbstractController
         $curr_user = $this->security->getUser();  
 
         $order = new Order();      
-        $date = date('Y-m-d H:i:s:v');
+        $date = date('Y-m-d H:i:s.v');
         $order->setOrderdate($date);
         $order->setStatus("Pending");
         $order->setUser($curr_user);

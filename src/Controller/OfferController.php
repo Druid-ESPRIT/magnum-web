@@ -41,12 +41,14 @@ class OfferController extends AbstractController
         );
     }
       /**
-     * @Route("/offerlist", name="offerlist")
+     * @Route("/offerlist/{id}", name="offerlist")
      */
-    public function offerList(Request $request, PaginatorInterface $paginator): Response
+    public function offerList(Request $request, PaginatorInterface $paginator,int $id): Response
     {
+        $repository=$this->getDoctrine()->getRepository(Users::class);
+        $user=$repository->find($id);
         $repository=$this->getDoctrine()->getRepository(Offer::class);
-        $offers=$repository->findAll();
+        $offers=$repository->findBy(['user'=> $user]);
         $pagedOffers = $paginator->paginate(
             $offers, // Requête contenant les données à paginer (ici nos articles)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page

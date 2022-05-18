@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serialize\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Article
@@ -21,6 +23,9 @@ class Article
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("post:read")
+
+
      * @return AnnotationException
      */
     private $id;
@@ -28,12 +33,17 @@ class Article
     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
+     * @Assert\NotBlank(message="please write the title")
+     * @Groups("post:read")
      */
     private $title;
 
     /**
      * @var string
      * @ORM\Column(name="url", type="text", length=0, nullable=false)
+     * @Assert\NotBlank(message="please upload pdf")
+     * @Assert\File(mimeTypes={"application/pdf"})
+     * @Groups("post:read")
      */
     private $url;
 
@@ -41,15 +51,16 @@ class Article
      * @var string
      *
      * @ORM\Column(name="content", type="string", length=255, nullable=false)
+     * @Groups("post:read")
      */
     private $content;
 
     /**
-     * @var \Podcasters
+     * @var Users
      *
-     * @ORM\ManyToOne(targetEntity="Podcasters")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="authorID", referencedColumnName="id")  
+     * @ORM\JoinColumn(name="authorID", referencedColumnName="id")
      * })
      */
     private $authorid;
@@ -95,12 +106,12 @@ class Article
         return $this;
     }
 
-    public function getAuthorid(): ?Podcasters
+    public function getAuthorid(): ?Users
     {
         return $this->authorid;
     }
 
-    public function setAuthorid(?Podcasters $authorid): self
+    public function setAuthorid(?Users $authorid): self
     {
         $this->authorid = $authorid;
 

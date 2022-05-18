@@ -43,7 +43,7 @@ class EventType extends AbstractType
             ])
             ->add('MaxParticipants',TextType::class,[
                 'label' => 'Number Of Participants',
-                'empty_data'=>''
+                'empty_data'=>0
             ])
             ->add('Payant',CheckboxType::class,[
                 'label' => 'Paid',

@@ -21,7 +21,7 @@ class EventBackController extends AbstractController
     {
         $user = $this->getUser();
 
-        $events = $eventRepository->findBy(["User"=>$user]);
+        $events = $eventRepository->findAll();
 
         return $this->render('back/event/home.html.twig', [
             'events' => $events,
