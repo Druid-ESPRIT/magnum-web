@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="article", indexes={@ORM\Index(name="authorID", columns={"authorID"})})
  * @ORM\Entity
-
  */
 class Article
 {
@@ -24,8 +23,6 @@ class Article
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("post:read")
-
-
      * @return AnnotationException
      */
     private $id;

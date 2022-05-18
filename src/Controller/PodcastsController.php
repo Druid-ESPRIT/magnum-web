@@ -45,16 +45,6 @@ class PodcastsController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/front", name="app_podcasts_indexfront", methods={"GET"})
      */
@@ -77,38 +67,11 @@ class PodcastsController extends AbstractController
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * @Route("/new", name="app_podcasts_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-
-
-
         $podcast = new Podcasts();
         $form = $this->createForm(PodcastsType::class, $podcast);
         $form->handleRequest($request);
@@ -288,8 +251,6 @@ class PodcastsController extends AbstractController
             "Attachment" => true        ]);
     }
 
-
-
     /**
      * @Route("/s/searchpodcast", name="searchPodcast")
      */
@@ -303,15 +264,9 @@ class PodcastsController extends AbstractController
 
     }
 
-
-
-  
-
-
     /**
      * @Route("/new/statistique", name="Podcasts_stats")
      */
-
     public function statistiques(Request $request , PodcastsRepository $PodcastsRep){
         $Podcasts= [];
         $Podcasts= $this->getDoctrine()->getRepository(Podcasts::class)->findAll();
@@ -343,13 +298,4 @@ class PodcastsController extends AbstractController
     
           ]);
       }
-
-
-
-
-
-
-
-
-
 }

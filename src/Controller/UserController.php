@@ -150,18 +150,12 @@ class UserController extends AbstractController
         $key =[];
         foreach ($users as $user)
         {   
-           
             if(in_array("ROLE_PODCASTERS", $user->getRoles())){
                 array_push($key,$user);
             }
-            
         }
 
-
-        return $this->render('user/podcasterslist.html.twig',
-        [ 'users' => $key ] 
-     );
-
+        return $this->render('user/podcasterslist.html.twig', ['users' => $key]);
     }
 }
 

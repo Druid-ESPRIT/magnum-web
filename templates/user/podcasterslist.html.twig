@@ -1,46 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{{ include('_navbar.html.twig') }}
+  {{ include('_navbar.html.twig') }}
+  
   <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
-        <div class="bradcumbContent">
-            <p>Offer Manager dashboard</p>
-        </div>
-    </section>
+    <div class="bradcumbContent">
+      <p>Discover our</p>
+      <h2>Podcasters</h2>
+    </div>
+  </section>
 
-    <!-- ##### Breadcumb Area End ##### -->
-
-    <!-- ##### Album Catagory Area Start ##### -->
-    <section class="album-catagory section-padding-100-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    
-                </div>
+  <section class="album-catagory section-padding-100-0">
+    <div class="container">
+      <div class="row oneMusic-albums">
+        <!-- Single Album -->
+        {% for user in users %}
+          <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
+            <div class="single-album">
+              <img src="img/bg-img/a1.jpg" alt="">
+              <div class="album-info">
+                <a href="{{ url('visit_user_profile', {'username' : user.username})}}">
+                  <h5>{{user.username}}</h5>
+                </a>
+                
+              </div>
             </div>
+          </div>
+        {%endfor%}
+        
 
-            <div class="row oneMusic-albums">
-
-                <!-- Single Album -->
-                {% for user in users %}
-                <div class="col-12 col-sm-4 col-md-3 col-lg-2 single-album-item t c p">
-                    <div class="single-album">
-                        <img src="img/bg-img/a1.jpg" alt="">
-                        <div class="album-info">
-                            <a href="{{ url('visit_user_profile', {'username' : user.username})}}">
-                                <h5>{{user.username}}</h5>
-                            </a>
-                          
-                        </div>
-                    </div>
-                </div>
-              {%endfor%}
-             
-
-            </div>
-        </div>
-    </section>
-    <!-- ##### Album Catagory Area End ##### -->
-
-   
-    {% endblock %}
+      </div>
+    </div>
+  </section>
+  
+{% endblock %}
