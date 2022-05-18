@@ -4,7 +4,7 @@
 {{ include('_navbar.html.twig') }}
   <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
         <div class="bradcumbContent">
-            <p>My orders list</p>
+            <h2>My orders list</h2>
         </div>
     </section>
  
@@ -26,7 +26,11 @@
                             <div class="song-name">
                                 <p>Plan: {{order.plan}} month(s) | Total : ${{order.total}} </p>
                                 <p>Order date : {{order.orderdate}}</p>
+                                {% if order.status == "Pending"%}
+                                <a href="{{path("checkout", {'order': order.id})}}"><p style="color:Tomato;">Status : {{order.status}} </p></a>
+                                {% else %}
                                 <p>Status : {{order.status}} </p>
+                                {% endif %}
                             </div>
                             
                         </div>

@@ -11,7 +11,7 @@
    
   <section class="breadcumb-area bg-img bg-overlay" style="background-image: url({{ asset ('img/bg-img/breadcumb3.jpg')}});">
         <div class="bradcumbContent">
-            <p>Choose your plan</p>
+            <h2>Choose your plan</h2>
         </div>
     </section>
 
@@ -21,9 +21,12 @@
 
 
     <!-- ##### offer infos ##### -->
-     <div class="blog-area section-padding-100">
+<div class="blog-area section-padding-100">
 <div class="containerOrder">
 
+ <div class="right">
+      <span class="price">$<span id="price">{{offers.price}}</span></span> / <span id="period">month</span>
+    </div>
   <div class="slider">
     <span id ="plan" name = "plan" class="rs-label"></span>
     <input type="range" min="1" max="12" value="1" id="slider" class="rs-range" >
@@ -33,9 +36,7 @@
   <div class="box-minmax">
     <span>1</span><span>12</span>
   </div>
-    <div class="right">
-      <span class="price">$<span id="price">{{offers.price}}</span></span> / <span id="period">month</span>
-    </div>
+   
     <div>
  <form id='buttonWithText' onSubmit={this.onSubmit}>
   <div id='switcher' class='collapsed'>
