@@ -70,6 +70,16 @@ class Users implements UserInterface, \Serializable
      * @ORM\Column(name="status", type="string", length=30, nullable=true)
      */
     private $status;
+    
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="User", orphanRemoval=true)
+     */
+    private $Events;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Review::class, mappedBy="user")
+     */
+    private $Reviews;
 
     public function getId(): ?int
     {
